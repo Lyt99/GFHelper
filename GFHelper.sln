@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFHelper", "GFHelper\GFHelp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFHelper-ConsoleTest", "GFHelper-ConsoleTest\GFHelper-ConsoleTest.csproj", "{A221E170-621B-4D3F-A44C-17F2CC64D2CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Girls_Frontline_Authcode", "..\TestHeikejiProject\Girls_Frontline_Authcode\Girls_Frontline_Authcode.csproj", "{7A2BB0BE-6D6A-4E99-8504-AE04447FA710}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		4.5|Any CPU = 4.5|Any CPU
@@ -28,12 +26,6 @@ Global
 		{A221E170-621B-4D3F-A44C-17F2CC64D2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A221E170-621B-4D3F-A44C-17F2CC64D2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A221E170-621B-4D3F-A44C-17F2CC64D2CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A2BB0BE-6D6A-4E99-8504-AE04447FA710}.4.5|Any CPU.ActiveCfg = 4.5|Any CPU
-		{7A2BB0BE-6D6A-4E99-8504-AE04447FA710}.4.5|Any CPU.Build.0 = 4.5|Any CPU
-		{7A2BB0BE-6D6A-4E99-8504-AE04447FA710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A2BB0BE-6D6A-4E99-8504-AE04447FA710}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A2BB0BE-6D6A-4E99-8504-AE04447FA710}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A2BB0BE-6D6A-4E99-8504-AE04447FA710}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
