@@ -1,0 +1,62 @@
+﻿using System;
+
+public class RequestUrls
+{
+    internal const string AbortMission = "Mission/abortMission";
+    public const string AbortOperation = "Operation/abortOperation";
+    public const string Attend = "Index/attendForSance";
+    public const string AutoBattle = "Mission/autoBattle";
+    public const string battleFinish = "Mission/battleFinish";
+    public const string BeginBuild = "Factory/build";
+    public const string BuildTeam = "Gun/teamGun";
+    public const string ChangeLockStatus = "Gun/changeLock";
+    public const string CheckNewMail = "Index/ifNewMail";
+    public const string CombineGun = "Gun/combineGun";
+    public const string CompleteImmdiately = "Factory/complete";
+    public const string DevelopEquip = "Equip/developEquip";
+    public const string DevelopGun = "Gun/developGun";
+    public const string EatGun = "Gun/eatGun";
+    public const string EndTurn = "Mission/endTurn";
+    public const string FinishDevelopGun = "Gun/finishDevelop";
+    public const string FinishOperation = "Operation/finishOperation";
+    public const string FixFinish = "Gun/fixFinish";
+    public const string FixGun = "Gun/fixGun";
+    public const string FormationSupplyGun = "Gun/supplyGun";
+    public const string GemBuyConstruction = "Mall/gemToMax";
+    public const string GemBuyItem = "Mall/gemToItem";
+    public const string GemBuyRes = "Mall/gemToResource";
+    public const string GetIllustratedList = "Index/getGunCollect";
+    public const string GetMailList = "Index/getMailList";
+    public const string GetMailResource = "Index/getResourceInMail";
+    public const string GetOneMail = "Index/getOneMail";
+    public const string GetQuest = "Index/Quest";
+    public const string GetServerTime = "Index/getTime";
+    public const string GetUserInfo = "Index/index";
+    public const string GetVersion = "Index/getVersion";
+    public const string Login = "Index/login";
+    public const string MoveTeam = "Mission/teamMove";
+    public const string PauseTurn = "Mission/pauseTurnTime";
+    public const string QuickDevelopGun = "Gun/quickDevelop";
+    public const string QuickFix = "Gun/quickFix";
+    public const string ReceiveProduct = "Factory/receive";
+    public const string RecoverBp = "Index/recoverBp";
+    public const string RecoverResource = "Index/recoverResource";
+    public const string ReinforceTeam = "Mission/reinforceTeam";
+    public const string RetireGun = "Gun/retireGun";
+    public const string RMBBuyConfirm = "Mall/ifAble";
+    public const string SetGuideInfo = "Index/guide";
+    public const string SetPosition = "Gun/setPosition";
+    public const string SetUserName = "Index/setUserName";
+    public const string SkillBeginTraining = "Gun/skillUpgrade";
+    public const string SkillQuicklyFinish = "Gun/quickUpgrade";
+    public const string SkillTrainingFinish = "Gun/finishUpgrade";
+    public const string StartMission = "Mission/startMission";
+    public const string StartOperation = "Operation/startOperation";
+    public const string StartTurn = "Mission/startTurn";
+    public const string SupplyTeam = "Mission/supplyTeam";
+    public const string UnlockBuildSlot = "Factory/unlockBuildSlot";
+    public const string Update = "Index/update";
+    public const string UploadUserLog = "Index/logCheatContent";
+    public const string Withdraw = "Mission/withdrawTeam";
+}
+
