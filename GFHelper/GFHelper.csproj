@@ -76,6 +76,7 @@
     <Compile Include="Data.cs" />
     <Compile Include="DataHelper.cs" />
     <Compile Include="InstanceManager.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Models\AutoOperationInfo.cs" />
     <Compile Include="Models\CommonModels.cs" />
     <Compile Include="Models\EffectGridType.cs" />

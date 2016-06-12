@@ -169,10 +169,10 @@ namespace GFHelper
             im.timer.DeleteTimerWithTextBlock(texttime);
             this.setTextBlockText(texttime, CommonHelper.formatDuration(0));
         }
-        public void setUserInfo(UserInfo userInfo)
+        public void setUserInfo()
         {
             try {
-
+                UserInfo userInfo = Data.userInfo;
                 im.mainWindow.Dispatcher.BeginInvoke(new Action(() => {
                     //GridUserInfo
                     im.mainWindow.UserName.Text = userInfo.name;

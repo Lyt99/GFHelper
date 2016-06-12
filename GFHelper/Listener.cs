@@ -120,6 +120,8 @@ namespace GFHelper
                         else
                         {
                             try {
+                                StringBuilder sb = new StringBuilder();
+                                sb.Append("api: " + api + "\n");
                                 NameValueCollection clientdata = new NameValueCollection();
                                 string serverdata = AuthCode.Decode(obj.Response.BodyAsString, token);
 
@@ -134,8 +136,15 @@ namespace GFHelper
                                     {
                                         clientdata["outdatacode"] = AuthCode.Decode(clientdata["outdatacode"], token, SimpleUserInfo.timeoffset);
                                         Console.WriteLine("outdatacode: " + clientdata["outdatacode"]);
-                                        
+                                        sb.Append("client: " + clientdata["outdatacode"] + "\n");
+
                                     }
+                                    else
+                                        clientdata["outdatacode"] = "[]";
+
+                                    sb.Append("server: " + serverdata);
+                                    im.logger.Log(sb.ToString());
+                                    
                                 }
 
                                 if(serverdata.Length < 100)
@@ -156,13 +165,14 @@ namespace GFHelper
 
         public void processMainData(string api, NameValueCollection client, string server)
         {
+            
             dynamic clientjson = DynamicJson.Parse(client["outdatacode"]);
             switch (api)
             {
                 case RequestUrls.GetUserInfo:
                     {
                         im.dataHelper.ReadUserInfo(server);
-                        im.uiHelper.setUserInfo(Data.userInfo);
+                        im.uiHelper.setUserInfo();
                         im.autoOperation.SetTeamInfo();
                         break;
                     }

@@ -16,6 +16,7 @@ namespace GFHelper
         public DataHelper dataHelper;
         public MainWindow mainWindow;
         public AutoOperation autoOperation;
+        public Logger logger;
 
         public InstanceManager(MainWindow mainWindow)
         {
@@ -27,6 +28,7 @@ namespace GFHelper
             this.dataHelper = new DataHelper(this);
             this.listener = new Listener(this);
             this.autoOperation = new AutoOperation(this);
+            this.logger = new Logger(this);
         }
     }
 }
