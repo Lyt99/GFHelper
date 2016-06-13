@@ -244,6 +244,8 @@ namespace GFHelper
                     g.TeamID = Convert.ToInt32(gun.team_id);
                     g.UserID = Convert.ToInt32(gun.user_id);
 
+                    g.UpdateData();
+
                     userInfo.gunWithUserID.Add(g);
                     if(g.TeamID != 0)
                     {

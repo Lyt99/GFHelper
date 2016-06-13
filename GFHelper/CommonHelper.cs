@@ -88,5 +88,22 @@ namespace GFHelper
             return (100 * (int)Math.Floor((float)Math.Pow(level * 0.2f, 2f)));
         }
 
+        public static int Clamp(int value, int min, int max)
+        {
+            if (value < min)
+            {
+                value = min;
+                return value;
+            }
+            if (value > max)
+            {
+                value = max;
+            }
+            return value;
+        }
+
+
+
+
     }
 }

@@ -30,10 +30,11 @@ namespace GFHelper.Models
         public int Skill2;
         public int TeamID;
         public int UserID;
-        public int maxLife;
+        
         GunInfo info;
 
         //whatever
+        public int maxLife;
         private int basePow;
         private int maxAddPow;
         private int pow;
@@ -41,14 +42,10 @@ namespace GFHelper.Models
         private int maxAddRate;
         private int baseHit;
         private int rate;
-        private int additionRate;
-        private int additionPow;
         private int maxAddHit;
         private int hit;
-        private int additionHit;
         private int baseDodge;
         private int maxAddDodge;
-        private int additionDodge;
         private int dodge;
         private int range;
         private int speed;
@@ -56,11 +53,11 @@ namespace GFHelper.Models
 
         public GunWithUserInfo()
         {
-            this.info = Data.gunInfo[this.GunID];
+            
         }
 
-        //以下待修改
-        /*
+        //或许能用了
+        
         public int GetFixDuration()
         {
             
@@ -94,11 +91,12 @@ namespace GFHelper.Models
 
         public void UpdateData()
         {
+            this.info = Data.gunInfo[this.GunID];
             float[] numArray = Ratio.arrAbilityRatio[((int)this.info.type) - 1];
             float num = 55f;
             float num2 = 0.555f;
             float num3 = 100f;
-            this.maxLife = (int)Math.Ceiling((((num + ((this.GunLevel - 1f) * num2)) * numArray[0]) * this.info.ratioLife) / num3) * this.number;
+            this.maxLife = (int)Math.Ceiling((((num + ((this.GunLevel - 1f) * num2)) * numArray[0]) * this.info.ratioLife) / num3) * this.Number;
             num = 16f;
             num2 = 100f;
             this.basePow = (int)Math.Ceiling(((num * numArray[1]) * this.info.ratioPow) / num2);
@@ -106,7 +104,7 @@ namespace GFHelper.Models
             num2 = 100f;
             num3 = 100f;
             this.maxAddPow = (int)Math.Ceiling(((((((this.GunLevel - 1) * num) * numArray[1]) * this.info.ratioPow) * this.info.eatRatio) / num2) / num3);
-            this.pow = this.basePow + this.additionPow;
+            this.pow = this.basePow + this.Pow;
             num = 45f;
             num2 = 100f;
             this.baseRate = (int)Math.Ceiling(((num * numArray[2]) * this.info.ratioRate) / num2);
@@ -114,7 +112,7 @@ namespace GFHelper.Models
             num2 = 100f;
             num3 = 100f;
             this.maxAddRate = (int)Math.Ceiling(((((((this.GunLevel - 1) * num) * numArray[2]) * this.info.ratioRate) * this.info.eatRatio) / num2) / num3);
-            this.rate = this.baseRate + this.additionRate;
+            this.rate = this.baseRate + this.Rate;
             num = 5f;
             num2 = 100f;
             this.baseHit = (int)Math.Ceiling(((num * numArray[4]) * this.info.ratioHit) / num2);
@@ -122,7 +120,7 @@ namespace GFHelper.Models
             num2 = 100f;
             num3 = 100f;
             this.maxAddHit = (int)Math.Ceiling(((((((this.GunLevel - 1) * num) * numArray[4]) * this.info.ratioHit) * this.info.eatRatio) / num2) / num3);
-            this.hit = this.baseHit + this.additionHit;
+            this.hit = this.baseHit + this.Hit;
             num = 5f;
             num2 = 100f;
             this.baseDodge = (int)Math.Ceiling(((num * numArray[5]) * this.info.ratioDodge) / num2);
@@ -130,7 +128,7 @@ namespace GFHelper.Models
             num2 = 100f;
             num3 = 100f;
             this.maxAddDodge = (int)Math.Ceiling(((((((this.GunLevel - 1) * num) * numArray[5]) * this.info.ratioDodge) * this.info.eatRatio) / num2) / num3);
-            this.dodge = this.baseDodge + this.additionDodge;
+            this.dodge = this.baseDodge + this.Dodge;
             num = 70f;
             num2 = 100f;
             this.range = (int)Math.Ceiling(((num * numArray[6]) * this.info.ratioRange) / num2);
@@ -139,6 +137,14 @@ namespace GFHelper.Models
             this.speed = (int)Math.Ceiling(((num * numArray[3]) * this.info.ratioSpeed) / num2);
             this.radian = 1.570796f;
         }
-        */
+
+        public bool isDamaged
+        {
+            get
+            {
+                return (this.Life < (this.maxLife * 0.3f));
+            }
+        }
+
     }
 }

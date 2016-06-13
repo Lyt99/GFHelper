@@ -88,6 +88,7 @@
     <Compile Include="Models\SimpleUserInfo.cs" />
     <Compile Include="Models\TimerDelegate.cs" />
     <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="Ratio.cs" />
     <Compile Include="Timer.cs" />
     <Compile Include="UIHelper.cs" />
     <Compile Include="Listener.cs" />
