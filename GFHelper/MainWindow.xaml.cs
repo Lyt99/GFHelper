@@ -49,12 +49,23 @@ namespace GFHelper
                 if (this.im.configManager.getConfigBool("buildlog"))
                     this.im.logger.ifBuildLog = true;
 
+                if (this.im.configManager.getConfigBool("autoopt"))
+                    this.TabItemOperation.Visibility = Visibility.Visible;
+
                 //讲道理，挺危险
                 Task.Run(() =>
                 {
-                    im.dataHelper.ReadCatchData();
-                    im.autoOperation.SetOperationInfo();
-                    im.autoOperation.StartRefresh();
+                    if (im.dataHelper.ReadCatchData())
+                    {
+                        im.autoOperation.SetOperationInfo();
+                        im.autoOperation.StartRefresh();
+                    }
+                    else
+                    {
+                        im.uiHelper.setStatusBarText_InThread("catchdata读取失败！请检查相关文件！");
+                        im.listener.Shutdown();
+                    }
+                    
 
                     Console.WriteLine("ok");
                 });

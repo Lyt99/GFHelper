@@ -84,15 +84,16 @@ namespace GFHelper
 
         public void Start(AutoOperationInfo ao)
         {
-
-            if (StartOperation(ao))
+            string res = StartOperation(ao);
+            if (res == "1")
             {
                 AddTimerStartOperation(ao);
 
             }
             else
             {
-                im.uiHelper.setStatusBarText_InThread(String.Format("[{0}]远征 {1} 开始失败！请检查相关参数！" ,DateTime.Now.ToString(), ao.OperationName));
+                im.uiHelper.setStatusBarText_InThread(String.Format("[{0}]远征 {1} 开始失败！请检查相关参数！错误信息: {2}" ,DateTime.Now.ToString(), ao.OperationName, res));
+                im.logger.Log(String.Format("远征开始失败，错误原因:{0}", res));
             }
 
         }
@@ -138,16 +139,12 @@ namespace GFHelper
             return null;
         }
 
-        private bool StartOperation(AutoOperationInfo ao)
+        private string StartOperation(AutoOperationInfo ao)
         {
             string jsondata = String.Format("{{\"team_id\":{0},\"operation_id\":{1}}}", ao._teamId.ToString(), ao._operationId.ToString());
 
             string result = im.serverHelper.sendDataToServer(RequestUrls.StartOperation, jsondata);
-            if(result == "1")
-            {
-                return true;
-            }
-            return false;
+            return result;
         }
 
         private bool EndOperation(AutoOperationInfo ao)

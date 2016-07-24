@@ -51,13 +51,12 @@ namespace GFHelper
         {
             try
             {
-                Console.WriteLine("doPost(): " + url + "---" + data);
+                Console.WriteLine("doPost(): " + url + "====" + data);
                 WebClient wc = new WebClient();
                 wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                 wc.Encoding = Encoding.UTF8;
                 byte[] postData = wc.Encoding.GetBytes(data);
                 string result = Encoding.UTF8.GetString(wc.UploadData(url, "POST", postData));
-                Console.WriteLine("result: " + result);
                 return result;
             }
             catch(System.Net.WebException e)
@@ -94,7 +93,6 @@ namespace GFHelper
                 {
                     string servername = item.GetElementsByTagName("name")[0].InnerText;
                     string serveraddr = item.GetElementsByTagName("addr")[0].InnerText;
-                    Console.WriteLine(serveraddr, servername);
                     serverList.Add(serveraddr, servername);
                 }
 
