@@ -22,5 +22,14 @@ namespace GFHelper.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("config.cfg")]
+        public string ConfigFile {
+            get {
+                return ((string)(this["ConfigFile"]));
+            }
+        }
     }
 }

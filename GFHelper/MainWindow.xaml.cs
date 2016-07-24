@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace GFHelper
 {
@@ -29,6 +30,24 @@ namespace GFHelper
             try
             {
                 this.im = new InstanceManager(this);
+                //加载配置文件
+
+                if (!this.im.configManager.Load())
+                {
+                    MessageBox.Show("配置文件加载失败！");
+                    Environment.Exit(0);
+                }
+
+                Models.SimpleUserInfo.platform = Models.Platform.Android;
+
+                if (this.im.configManager.getConfigString("platform") == "ios")
+                    Models.SimpleUserInfo.platform = Models.Platform.IOS;
+
+                if (this.im.configManager.getConfigBool("debuglog"))
+                    this.im.logger.ifLog = true;
+
+                if (this.im.configManager.getConfigBool("buildlog"))
+                    this.im.logger.ifBuildLog = true;
 
                 //讲道理，挺危险
                 Task.Run(() =>
@@ -40,7 +59,9 @@ namespace GFHelper
                     Console.WriteLine("ok");
                 });
 
-                im.listener.startProxy(8888);
+                int port = im.configManager.getConfigInt("port");
+                if (port <= 0) port = 8888;
+                im.listener.startProxy(port);
 
                 
             }

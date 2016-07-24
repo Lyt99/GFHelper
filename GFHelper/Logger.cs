@@ -8,39 +8,57 @@ namespace GFHelper
 {
     class Logger
     {
+        public bool ifBuildLog;
         public bool ifLog;
         private bool locked = false;
         private InstanceManager im;
-        private FileStream fs;
+        //private FileStream fs;
         private string logFileName = "log.log";
+        private string buildLogFileName = "buildlog.txt";
 
         public Logger(InstanceManager im)
         {
-            this.ifLog = true;
             this.im = im;
-            fs = new FileStream(logFileName, FileMode.Append);
+            this.ifLog = false;
 
         }
 
-        ~Logger()
-        {
-            fs.Close();
-        }
 
-        public void Log(string logstr)
+        public void Log(string logstr, string logFile = null, bool forcelog = false)
         {
+            if (String.IsNullOrEmpty(logFile)) logFile = this.logFileName;
+
+            Console.WriteLine(logstr);
             while (locked)
                 Thread.Sleep(100);
+
+            FileStream fs = new FileStream(logFile, FileMode.Append);
+            if (!ifLog || !forcelog) return;
             locked = true;
-            Console.WriteLine("Logging...");
-            if (!ifLog) return;
             string log = string.Format("[{0}]\n{1}\n", DateTime.Now.ToString(), logstr);
             byte[] logbyte = Encoding.Default.GetBytes(log);
             fs.Write(logbyte, 0, logbyte.Length);
             fs.Flush();
-            Console.WriteLine("Logged.");
+            fs.Close();
             locked = false;
+        }
 
+        public void LogBuildResult(string logstr)
+        {
+
+            Console.WriteLine(logstr);
+            while (locked)
+                Thread.Sleep(100);
+
+            FileStream fs = new FileStream(buildLogFileName, FileMode.Append);
+            if (!ifLog) return;
+            locked = true;
+            string log = string.Format("[{0}]\n{1}\n", DateTime.Now.ToString(), logstr);
+            byte[] logbyte = Encoding.Default.GetBytes(log);
+            fs.Write(logbyte, 0, logbyte.Length);
+            fs.Flush();
+            fs.Close();
+            locked = false;
         }
     }
 }

@@ -66,10 +66,10 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="梯队" Margin="-1,4,-3,-3">
+            <TabItem Header="梯队" Margin="38,4,-42,-3" Visibility="Hidden">
                 <Grid Background="#FFE5E5E5" Margin="-6,0,-6,-3"/>
             </TabItem>
-            <TabItem Header="工厂" Margin="3,4,-7,-4">
+            <TabItem Header="工厂" Margin="-37,4,33,-5">
                 <Grid Background="#FFE5E5E5" Margin="-6,0,-2,-2">
                     <Grid>
                         <ScrollViewer>
@@ -129,10 +129,10 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="战斗" Margin="7,4,-11,-6">
+            <TabItem Header="战斗" Margin="7,4,-11,-6" Visibility="Hidden">
                 <Grid Background="#FFE5E5E5" Margin="-5,0,-6,-3"/>
             </TabItem>
-            <TabItem Header="后勤" HorizontalAlignment="Left" Width="43" Margin="10,4,-16,-4">
+            <TabItem Header="后勤" HorizontalAlignment="Left" Width="43" Margin="10,4,-16,-4" Visibility="Hidden">
                 <Grid Background="#FFE5E5E5">
                     <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Height="25" Margin="32,22,0,0" TextWrapping="Wrap" Text="选择梯队:" VerticalAlignment="Top" Width="171" FontSize="16"/>
                     <ComboBox x:Name="comboBoxOperationTeam" HorizontalAlignment="Left" Height="25" Margin="112,20,0,0" VerticalAlignment="Top" Width="146"/>

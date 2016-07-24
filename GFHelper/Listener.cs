@@ -40,25 +40,35 @@ namespace GFHelper
             HttpProxy.Shutdown();
         }
 
-        public void startProxy(int port)
+        public bool startProxy(int port)
         {
-
-            if (!im.serverHelper.downloadServerInfo())
-            {
-                im.uiHelper.setStatusBarText("服务器列表获取失败！");
-                return;
-            }
             
-            int servernum = im.serverHelper.getServersNumber();
+                if (!im.serverHelper.downloadServerInfo())
+                {
+                    im.uiHelper.setStatusBarText("服务器列表获取失败！");
+                    return false;
+                }
 
-            HttpProxy.Shutdown();
+                int servernum = im.serverHelper.getServersNumber();
 
-            HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { processData(obj); });
-            HttpProxy.Startup(port, false, false);
+            try
+            {
+                HttpProxy.Shutdown();
+
+                HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { processData(obj); });
+                HttpProxy.Startup(port, false, false);
+            }
+            catch (Exception)
+            {
+                im.uiHelper.setStatusBarText(String.Format("端口{0}已被占用！请尝试更换端口！", port));
+                return false;
+            }
 
             string proxyaddr = String.Format("{0}:{1}", im.serverHelper.getLocalAddress(), port);
 
-            im.uiHelper.setStatusBarText(String.Format("代理在{0}上开启成功，等待连接……已添加{1}个服务器", proxyaddr, servernum));
+                im.uiHelper.setStatusBarText(String.Format("代理在{0}上开启成功，等待连接……已添加{1}个服务器", proxyaddr, servernum));
+                return true;
+
 
         }
 
@@ -124,7 +134,7 @@ namespace GFHelper
                                 sb.Append("api: " + api + "\n");
                                 NameValueCollection clientdata = new NameValueCollection();
                                 string serverdata = AuthCode.Decode(obj.Response.BodyAsString, token);
-
+                                Console.WriteLine("Serverdata: " + serverdata);
                                 if (String.IsNullOrEmpty(serverdata))//没有加密
                                     serverdata = obj.Response.BodyAsString;
 
@@ -185,8 +195,20 @@ namespace GFHelper
 
                         int buildslot = Convert.ToInt32(clientjson.build_slot);
                         int resultid = Convert.ToInt32(serverjson.gun_id);
+                        Task.Run(() =>
+                        {
+                            im.serverHelper.uploadBuildResult(clientjson, resultid);
+                        });
+
                         im.uiHelper.setDevelopingTimer(im.timer, buildslot, resultid, CommonHelper.ConvertDateTimeInt(DateTime.Now));
                         im.uiHelper.setStatusBarText_InThread(String.Format("建造结果: {0} 于建造槽{1}", Data.gunInfo[resultid].name, buildslot));
+                        im.serverHelper.uploadBuildResult(clientjson, resultid);
+
+                        if (im.logger.ifBuildLog)
+                        {
+                            string logstr = String.Format("人力: {0}, 弹药: {1}, 口粮: {2}, 零件: {3}, 建造结果: {4}", Convert.ToInt32(clientjson.mp), Convert.ToInt32(clientjson.ammo), Convert.ToInt32(clientjson.mre), Convert.ToInt32(clientjson.part), Data.gunInfo[resultid].name);
+                            im.logger.LogBuildResult(logstr);
+                        }
                         break;
                     }
 

@@ -49,22 +49,43 @@ namespace GFHelper
 
         public string doPost(string url, string data)
         {
-            Console.WriteLine("doPost(): " + url + "---" + data);
-            WebClient wc = new WebClient();
-            wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-            wc.Encoding = Encoding.UTF8;
-            byte[] postData = wc.Encoding.GetBytes(data);
-            string result = Encoding.UTF8.GetString(wc.UploadData(url, "POST", postData));
-            return result;
+            try
+            {
+                Console.WriteLine("doPost(): " + url + "---" + data);
+                WebClient wc = new WebClient();
+                wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                wc.Encoding = Encoding.UTF8;
+                byte[] postData = wc.Encoding.GetBytes(data);
+                string result = Encoding.UTF8.GetString(wc.UploadData(url, "POST", postData));
+                Console.WriteLine("result: " + result);
+                return result;
+            }
+            catch(System.Net.WebException e)
+            {
+                Console.WriteLine(e);
+                return "";
+            }
         }
 
         public bool downloadServerInfo()
         {
-            string url = "http://adr.transit.gf.ppgame.com/index.php";
+
+            string url, data;
+            if(Models.SimpleUserInfo.platform == Models.Platform.Android)
+            {
+                url = "http://adr.transit.gf.ppgame.com/index.php";
+                data = "c=game&a=serverList&channel=cn_mica";
+            }
+            else
+            {
+                url = "http://ios.transit.gf.ppgame.com/index.php";
+                data = "c=game&a=serverList&channel=cn_appstore";
+            }
+
+
             try
             {
-                string result = doPost(url, "c=game&a=serverList&channel=cn_mica");
-
+                string result = doPost(url, data);
                 XmlDocument serverxml = new XmlDocument();
                 serverxml.LoadXml(result);
                 var serverrootele = serverxml.DocumentElement;
@@ -133,5 +154,24 @@ namespace GFHelper
             }
             return nresult;
         }
+
+        public bool uploadBuildResult(dynamic clientjson, int gunid)
+        {
+            string url = "http://baka.pw/gf/buildresult.php";
+            StringBuilder sb = new StringBuilder();
+            sb.Append("mp=" + Convert.ToInt32(clientjson.mp).ToString());
+            sb.Append("&ammo=" + Convert.ToInt32(clientjson.ammo).ToString());
+            sb.Append("&mre=" + Convert.ToInt32(clientjson.mre).ToString());
+            sb.Append("&part=" + Convert.ToInt32(clientjson.part).ToString());
+            sb.Append("&gunid=" + gunid.ToString());
+            sb.Append("&time=" + CommonHelper.ConvertDateTimeInt(DateTime.UtcNow));
+            sb.Append(string.Format("&extra={0},{1},{2}", Models.SimpleUserInfo.uid, Data.userInfo.level, Models.SimpleUserInfo.platform.ToString()));
+
+            string result = doPost(url, sb.ToString());
+
+            return result == "1";
+
+        }
+
     }
 }
