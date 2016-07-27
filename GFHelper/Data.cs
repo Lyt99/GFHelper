@@ -8,6 +8,6 @@ namespace GFHelper
         public static UserInfo userInfo = new UserInfo();
         public static Dictionary<int, GunInfo> gunInfo = new Dictionary<int, GunInfo>();
         public static Dictionary<int, OperationInfo> operationInfo = new Dictionary<int, OperationInfo>();
-        public static SortedDictionary<int, Dictionary<int, GunWithUserInfo>> teamInfo = new SortedDictionary<int, Dictionary<int, GunWithUserInfo>>();
+        
     }
 }

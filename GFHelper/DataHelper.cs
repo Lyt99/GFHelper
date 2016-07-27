@@ -31,7 +31,7 @@ namespace GFHelper
             Data.userInfo.dictionaryWeeklyStatistics.Clear();
             Data.userInfo.listGunCollect.Clear();
             Data.userInfo.gunWithUserID.Clear();
-            Data.teamInfo.Clear();
+            Data.userInfo.teamInfo.Clear();
             Data.userInfo.item.Clear();
 
         }
@@ -40,7 +40,7 @@ namespace GFHelper
         {
             try
             {
-                return Data.teamInfo[team][location];
+                return Data.userInfo.teamInfo[team][location];
             }
             catch (Exception)
             {
@@ -249,12 +249,12 @@ namespace GFHelper
                     userInfo.gunWithUserID.Add(g);
                     if(g.TeamID != 0)
                     {
-                        if (!Data.teamInfo.ContainsKey(g.TeamID))
+                        if (!userInfo.teamInfo.ContainsKey(g.TeamID))
                         {
-                            Data.teamInfo.Add(g.TeamID, new Dictionary<int, GunWithUserInfo>());
+                            userInfo.teamInfo.Add(g.TeamID, new Dictionary<int, GunWithUserInfo>());
                         }
 
-                        Data.teamInfo[g.TeamID].Add(g.Location, g);
+                        userInfo.teamInfo[g.TeamID].Add(g.Location, g);
                     }
 
                 }

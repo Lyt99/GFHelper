@@ -39,7 +39,7 @@ namespace GFHelper.Models
         {
             get
             {
-                return String.Format("梯队{0}({1})", this._teamId, Data.gunInfo[Data.teamInfo[this._teamId][1].GunID].name);
+                return String.Format("梯队{0}({1})", this._teamId, Data.gunInfo[Data.userInfo.teamInfo[this._teamId][1].GunID].name);
             }
         }
 

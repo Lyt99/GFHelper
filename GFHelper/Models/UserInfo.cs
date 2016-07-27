@@ -49,6 +49,7 @@ namespace GFHelper.Models
 
         public List<GunWithUserInfo> gunWithUserID = new List<GunWithUserInfo>();
         public Dictionary<int, int> item = new Dictionary<int, int>();
+        public SortedDictionary<int, Dictionary<int, GunWithUserInfo>> teamInfo = new SortedDictionary<int, Dictionary<int, GunWithUserInfo>>();
 
         public int Exp
         {

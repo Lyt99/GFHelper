@@ -42,7 +42,7 @@ namespace GFHelper
                 im.mainWindow.comboBoxOperationTeam.Items.Clear();
             });
             
-            foreach(var i in Data.teamInfo)
+            foreach(var i in Data.userInfo.teamInfo)
             {
                 var item = i.Value;
                 string itemtext;
