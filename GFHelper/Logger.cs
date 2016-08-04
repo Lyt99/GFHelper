@@ -8,9 +8,8 @@ namespace GFHelper
 {
     class Logger
     {
-        public bool ifBuildLog;
-        public bool ifLog;
-        private bool locked = false;
+        private bool ifBuildLog;
+        private bool ifLog;
         private InstanceManager im;
         //private FileStream fs;
         private string logFileName = "log.log";
@@ -20,45 +19,43 @@ namespace GFHelper
         {
             this.im = im;
             this.ifLog = false;
+            this.ifBuildLog = false;
 
         }
 
+        public void SetLogState(bool state){this.ifLog = state;}
+        public void SetBuildLogState(bool state){this.ifBuildLog = state;}
+        public bool GetIfLog() { return ifLog; }
+        public bool GetIfBuildLog() { return ifBuildLog; }
 
-        public void Log(string logstr, string logFile = null, bool forcelog = false)
+
+        public void Log(string logstr, string logFile = "", bool forcelog = false)
         {
+            if (!ifLog && !forcelog) return;
             if (String.IsNullOrEmpty(logFile)) logFile = this.logFileName;
 
-            Console.WriteLine(logstr);
-            while (locked)
-                Thread.Sleep(100);
-
+            Console.WriteLine("Start Logging..." + logFile);
             FileStream fs = new FileStream(logFile, FileMode.Append);
-            if (!ifLog || !forcelog) return;
-            locked = true;
+            
             string log = string.Format("[{0}]\n{1}\n", DateTime.Now.ToString(), logstr);
             byte[] logbyte = Encoding.Default.GetBytes(log);
             fs.Write(logbyte, 0, logbyte.Length);
             fs.Flush();
             fs.Close();
-            locked = false;
         }
 
         public void LogBuildResult(string logstr)
         {
 
             Console.WriteLine(logstr);
-            while (locked)
-                Thread.Sleep(100);
 
             FileStream fs = new FileStream(buildLogFileName, FileMode.Append);
             if (!ifLog) return;
-            locked = true;
             string log = string.Format("[{0}]\n{1}\n", DateTime.Now.ToString(), logstr);
             byte[] logbyte = Encoding.Default.GetBytes(log);
             fs.Write(logbyte, 0, logbyte.Length);
             fs.Flush();
             fs.Close();
-            locked = false;
         }
     }
 }

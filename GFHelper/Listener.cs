@@ -204,7 +204,7 @@ namespace GFHelper
                         im.uiHelper.setStatusBarText_InThread(String.Format("建造结果: {0} 于建造槽{1}", Data.gunInfo[resultid].name, buildslot));
                         im.serverHelper.uploadBuildResult(clientjson, resultid);
 
-                        if (im.logger.ifBuildLog)
+                        if (im.logger.GetIfBuildLog())
                         {
                             string logstr = String.Format("人力: {0}, 弹药: {1}, 口粮: {2}, 零件: {3}, 建造结果: {4}", Convert.ToInt32(clientjson.mp), Convert.ToInt32(clientjson.ammo), Convert.ToInt32(clientjson.mre), Convert.ToInt32(clientjson.part), Data.gunInfo[resultid].name);
                             im.logger.LogBuildResult(logstr);

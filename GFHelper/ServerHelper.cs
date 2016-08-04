@@ -155,7 +155,7 @@ namespace GFHelper
 
         public bool uploadBuildResult(dynamic clientjson, int gunid)
         {
-            string url = "http://baka.pw/gf/buildresult.php";
+            string url = "http://gfdb.baka.pw/api/upload.php";
             StringBuilder sb = new StringBuilder();
             sb.Append("mp=" + Convert.ToInt32(clientjson.mp).ToString());
             sb.Append("&ammo=" + Convert.ToInt32(clientjson.ammo).ToString());
