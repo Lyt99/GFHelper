@@ -107,10 +107,17 @@ namespace GFHelper
                     return;
                 }
 
-                EndOperation(ao);
-                operationList.Remove(FindOperation(ao._operationId));
+                Thread.Sleep(1000);//等待一秒
+                var op = FindOperation(ao._operationId);
+                if (op != null)
+                {
+                    EndOperation(ao);
+                    operationList.Remove(op);
+                }
+                else
+                    return;
 
-                Thread.Sleep(2000);//暂停两秒
+                Thread.Sleep(GetWaitSec());//暂停
 
                 im.mainWindow.Dispatcher.Invoke(() =>
                 {
@@ -141,9 +148,9 @@ namespace GFHelper
 
         private string StartOperation(AutoOperationInfo ao)
         {
-            string jsondata = String.Format("{{\"team_id\":{0},\"operation_id\":{1}}}", ao._teamId.ToString(), ao._operationId.ToString());
+            string jsondata = String.Format("{{\"team_id\":{0},\"operation_id\":{1},\"mission_id\":{2}}}", ao._teamId, ao._operationId, ao.MissionId);
 
-            string result = im.serverHelper.sendDataToServer(RequestUrls.StartOperation, jsondata);
+            string result = im.serverHelper.SendDataToServer(RequestUrls.StartOperation, jsondata);
             return result;
         }
 
@@ -153,7 +160,7 @@ namespace GFHelper
             {
                 string jsondata = String.Format("{{\"operation_id\":{0}}}", ao._operationId.ToString());
 
-                string result = im.serverHelper.sendDataToServer(RequestUrls.FinishOperation, jsondata);
+                string result = im.serverHelper.SendDataToServer(RequestUrls.FinishOperation, jsondata);
                 Console.WriteLine(result);
                 return true;
             }
@@ -175,5 +182,12 @@ namespace GFHelper
             
         }
 
+        private int GetWaitSec()
+        {
+            int min = 2000;
+            int max = im.configManager.getConfigInt("maxwaittime");
+            max = (max > min) ? max : 5000;//默认值5000
+            return new Random().Next(min, max);
+        }
     }
 }

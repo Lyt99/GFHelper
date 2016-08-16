@@ -21,7 +21,7 @@ namespace GFHelper
             this.serverList = new Dictionary<string, string>();
         }
 
-        public string getLocalAddress()
+        public string GetLocalAddress()
         {
             return "0.0.0.0";
             try
@@ -47,7 +47,7 @@ namespace GFHelper
 
     }
 
-        public string doPost(string url, string data)
+        public string DoPost(string url, string data)
         {
             try
             {
@@ -66,27 +66,12 @@ namespace GFHelper
             }
         }
 
-        public bool downloadServerInfo()
+        public bool ReadServerInfo(string data)
         {
-
-            string url, data;
-            if(Models.SimpleUserInfo.platform == Models.Platform.Android)
-            {
-                url = "http://adr.transit.gf.ppgame.com/index.php";
-                data = "c=game&a=serverList&channel=cn_mica";
-            }
-            else
-            {
-                url = "http://ios.transit.gf.ppgame.com/index.php";
-                data = "c=game&a=serverList&channel=cn_appstore";
-            }
-
-
             try
             {
-                string result = doPost(url, data);
                 XmlDocument serverxml = new XmlDocument();
-                serverxml.LoadXml(result);
+                serverxml.LoadXml(data);
                 var serverrootele = serverxml.DocumentElement;
                 var servers = serverrootele.GetElementsByTagName("server");
                 foreach (XmlElement item in servers)
@@ -105,42 +90,42 @@ namespace GFHelper
 
         }
 
-        public int getServersNumber()
+        public int GetServerNumber()
         {
             return serverList.Count;
         }
 
-        private string getHost(string addr)
+        private string GetHost(string addr)
         {
             return addr.Split('/')[2];
         }
 
-        public KeyValuePair<string, string> getServerFromDictionary(string host)
+        public KeyValuePair<string, string> GetServerFromDictionary(string host)
         {
             foreach (var item in serverList)
             {
-                if (getHost(item.Key) == host) return item;
+                if (GetHost(item.Key) == host) return item;
             }
             return new KeyValuePair<string, string>("", "");
         }
 
-        public void sendDataToServer_t(string url, string data, bool ifProcessData = false)
+        public void SendDataToServer_t(string url, string data, bool ifProcessData = false)
         {
             Task.Run(() =>
             {
-               sendDataToServer(url, data, ifProcessData);
+               SendDataToServer(url, data, ifProcessData);
             });
         }
         //慎用
-        public string sendDataToServer(string url, string data, bool ifProcessData = false)
+        public string SendDataToServer(string url, string data, bool ifProcessData = false)
         {
-            string host = Models.SimpleUserInfo.host;
-            string outdatacode = AuthCode.Encode(data, Models.SimpleUserInfo.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", Models.SimpleUserInfo.uid, HttpUtility.UrlEncode(outdatacode), CommonHelper.ConvertDateTimeInt(DateTime.Now, true));
+            string host = Models.SimpleInfo.host;
+            string outdatacode = AuthCode.Encode(data, Models.SimpleInfo.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", Models.SimpleInfo.uid, HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
             Console.WriteLine(requeststring);
-            string result = doPost(host + url, requeststring);
+            string result = DoPost(host + url, requeststring);
 
-            string nresult = AuthCode.Decode(result, Models.SimpleUserInfo.sign);
+            string nresult = AuthCode.Decode(result, Models.SimpleInfo.sign);
             if (String.IsNullOrEmpty(nresult)) nresult = result;
 
             if (ifProcessData)
@@ -153,7 +138,7 @@ namespace GFHelper
             return nresult;
         }
 
-        public bool uploadBuildResult(dynamic clientjson, int gunid)
+        public bool UploadBuildResult(dynamic clientjson, int gunid)
         {
             string url = "http://gfdb.baka.pw/api/upload.php";
             StringBuilder sb = new StringBuilder();
@@ -163,9 +148,9 @@ namespace GFHelper
             sb.Append("&part=" + Convert.ToInt32(clientjson.part).ToString());
             sb.Append("&gunid=" + gunid.ToString());
             sb.Append("&time=" + CommonHelper.ConvertDateTimeInt(DateTime.UtcNow));
-            sb.Append(string.Format("&extra={0},{1},{2}", Models.SimpleUserInfo.uid, Data.userInfo.level, Models.SimpleUserInfo.platform.ToString()));
+            sb.Append(string.Format("&extra={0},{1},{2}", Models.SimpleInfo.uid, Data.userInfo.level, Models.SimpleInfo.platform.ToString()));
 
-            string result = doPost(url, sb.ToString());
+            string result = DoPost(url, sb.ToString());
 
             return result == "1";
 

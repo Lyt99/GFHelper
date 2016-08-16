@@ -13,14 +13,12 @@ namespace GFHelper
 
         private InstanceManager im;
         private Dictionary<string, string> config;
-        private bool ifLoad;
 
         public ConfigManager(InstanceManager im)
         {
             Console.WriteLine("load");
             fileName = (string)Properties.Settings.Default["ConfigFile"];
             this.im = im;
-            this.ifLoad = false;
             this.config = new Dictionary<string, string>();
             Console.WriteLine(fileName);
         }
@@ -40,7 +38,6 @@ namespace GFHelper
                     config.Add(c[0].Trim().ToLower(), c[1].Trim().ToLower());
                 }
 
-                this.ifLoad = true;
                 return true;
             }
             catch(Exception e)

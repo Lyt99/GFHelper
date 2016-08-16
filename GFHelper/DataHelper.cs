@@ -154,6 +154,49 @@ namespace GFHelper
 
                 }
 
+                //equip_info
+                foreach(var item in jsonobj.equip_info)
+                {
+                    EquipInfo ei = new EquipInfo();
+                    ei.id = Convert.ToInt32(item.id);
+                    ei.name = item.name;
+                    ei.description = item.description;
+                    ei.rank = Convert.ToInt32(item.rank);
+                    ei.category = Convert.ToInt32(item.category);
+                    ei.type = Convert.ToInt32(item.type);
+                    ei.pow = item.pow;
+                    ei.hit = item.hit;
+                    ei.dodge = item.dodge;
+                    ei.speed = item.speed;
+                    ei.rate = item.rate;
+                    ei.criticalHarmRate = item.critical_harm_rate;
+                    ei.criticalPercent = item.critical_percent;
+                    ei.armorPiercing = item.armor_piercing;
+                    ei.armor = item.armor;
+                    ei.shield = item.shield;
+                    ei.damageAmplify = item.damage_amplify;
+                    ei.damageReduction = item.damage_reduction;
+                    ei.nightViewPercent = item.night_view_percent;
+                    ei.bulletNumberUp = item.bullet_number_up;
+                    ei.slowDownPercent = item.slow_down_percent;
+                    ei.slowDownRate = Convert.ToInt32(item.slow_down_rate);
+                    ei.slowDownTime = Convert.ToInt32(item.slow_down_time);
+                    ei.dotPercent = item.dot_percent;
+                    ei.dotDamage = Convert.ToInt32(item.dot_damage);
+                    ei.dotTime = Convert.ToInt32(item.dot_time);
+                    ei.retireMp = Convert.ToInt32(item.retire_mp);
+                    ei.retireAmmo = Convert.ToInt32(item.retire_ammo);
+                    ei.retireMre = Convert.ToInt32(item.retire_mre);
+                    ei.retirePart = Convert.ToInt32(item.retire_part);
+                    ei.code = item.code;
+                    ei.developDuration = Convert.ToInt32(item.develop_duration);
+                    ei.company = item.company;
+                    ei.skillLevelUp = Convert.ToInt32(item.skill_level_up);
+                    ei.fitGuns = item.fit_guns;
+                    ei.equipIntroduction = item.equip_introduction;
+
+                    Data.equipInfo.Add(ei.id, ei);
+                }
 
             }
             catch (IOException e)
@@ -272,7 +315,7 @@ namespace GFHelper
                 //develop_act_info
                 foreach(var item in jsonobj.develop_act_info)
                 {
-                    im.uiHelper.setDevelopingTimer(im.timer, Convert.ToInt32(item.build_slot), Convert.ToInt32(item.gun_id), Convert.ToInt32(item.start_time) - SimpleUserInfo.timeoffset);
+                    im.uiHelper.setDevelopingTimer(im.timer, Convert.ToInt32(item.build_slot), Convert.ToInt32(item.gun_id), Convert.ToInt32(item.start_time) - SimpleInfo.timeoffset);
                 }
 
                 //operation_act_info
@@ -285,6 +328,14 @@ namespace GFHelper
                         im.autoOperation.AddTimerStartOperation(ao);
                     });
 
+                }
+
+                //develop_equip_act_info
+                
+                foreach(KeyValuePair<string, dynamic> i in jsonobj.develop_equip_act_info)
+                {
+                    var item = i.Value;
+                    im.uiHelper.setDevelopingTimer(im.timer, Convert.ToInt32(item.build_slot), Convert.ToInt32(item.equip_id), Convert.ToInt32(item.start_time) - SimpleInfo.timeoffset, true);
                 }
             }
             catch(Exception e)

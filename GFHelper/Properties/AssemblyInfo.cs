@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("GFHelper")]
 [assembly: AssemblyDescription("An assitant for Girls Frontline")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("THE GFH TEAM")]
+[assembly: AssemblyCompany("GFHelper Team")]
 [assembly: AssemblyProduct("GFHelper")]
 [assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("")]
@@ -52,4 +52,4 @@ using System.Windows;
 // 方法是按如下所示使用“*”: :
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.0.2.4")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("0.0.2.5")]

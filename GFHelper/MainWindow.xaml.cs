@@ -38,10 +38,10 @@ namespace GFHelper
                     Environment.Exit(0);
                 }
 
-                Models.SimpleUserInfo.platform = Models.Platform.Android;
+                Models.SimpleInfo.platform = Models.Platform.Android;
 
                 if (this.im.configManager.getConfigString("platform") == "ios")
-                    Models.SimpleUserInfo.platform = Models.Platform.IOS;
+                    Models.SimpleInfo.platform = Models.Platform.IOS;
 
                 if (this.im.configManager.getConfigBool("debuglog"))
                     this.im.logger.SetLogState(true);

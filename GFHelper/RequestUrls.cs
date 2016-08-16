@@ -14,12 +14,13 @@ public class RequestUrls
     public const string CheckNewMail = "Index/ifNewMail";
     public const string CombineGun = "Gun/combineGun";
     public const string CompleteImmdiately = "Factory/complete";
-    public const string DevelopEquip = "Equip/developEquip";
+    public const string DevelopEquip = "Equip/develop";
     public const string DevelopGun = "Gun/developGun";
     public const string EatGun = "Gun/eatGun";
     public const string EndTurn = "Mission/endTurn";
     public const string FinishAutoMission = "Automission/finishAutomission";
     public const string FinishDevelopGun = "Gun/finishDevelop";
+    public const string FinishDeveloEquip = "Equip/finishDevelop";
     public const string FinishOperation = "Operation/finishOperation";
     public const string FixFinish = "Gun/fixFinish";
     public const string FixGun = "Gun/fixGun";

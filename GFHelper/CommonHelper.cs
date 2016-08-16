@@ -10,7 +10,6 @@ namespace GFHelper
 {
     class CommonHelper
     {
-
         public static int ConvertDateTimeInt(System.DateTime time, bool ifoffset = false)
         {
             //double intResult = 0;
@@ -18,7 +17,7 @@ namespace GFHelper
             //intResult = (time- startTime).TotalMilliseconds;
             long t = (time.Ticks - startTime.Ticks) / 10000000;
             if (ifoffset)
-                return (int)t + Models.SimpleUserInfo.timeoffset;
+                return (int)t + Models.SimpleInfo.timeoffset;
             else
                 return (int)t;
         }

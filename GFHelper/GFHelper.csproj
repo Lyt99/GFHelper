@@ -58,6 +58,9 @@
   <PropertyGroup>
     <StartupObject>GFHelper.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip, Version=1.9.7.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.9.7\lib\net20\Ionic.Zip.dll</HintPath>
@@ -100,12 +103,13 @@
     <Compile Include="Models\CommonModels.cs" />
     <Compile Include="Models\EffectGridType.cs" />
     <Compile Include="Models\EffectType.cs" />
+    <Compile Include="Models\EquipInfo.cs" />
     <Compile Include="Models\GunInfo.cs" />
     <Compile Include="Models\GunType.cs" />
     <Compile Include="Models\GunWithUserInfo.cs" />
     <Compile Include="Models\OperationInfo.cs" />
     <Compile Include="Models\Platform.cs" />
-    <Compile Include="Models\SimpleUserInfo.cs" />
+    <Compile Include="SimpleInfo.cs" />
     <Compile Include="Models\TimerDelegate.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Ratio.cs" />
@@ -173,6 +177,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="icon.ico" />
+    <Resource Include="WhatYouNeed\icon.ico" />
     <Content Include="WhatYouNeed\log4net.dll" />
     <Content Include="WhatYouNeed\Nekoxy.dll" />
     <Content Include="WhatYouNeed\TrotiNet.dll" />
