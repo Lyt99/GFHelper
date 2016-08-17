@@ -217,7 +217,6 @@ namespace GFHelper
 
                         im.uiHelper.setDevelopingTimer(im.timer, buildslot, resultid, CommonHelper.ConvertDateTimeInt(DateTime.Now));
                         im.uiHelper.setStatusBarText_InThread(String.Format("建造结果: {0} 于建造槽{1}", Data.gunInfo[resultid].name, (buildslot + 1) / 2));
-                        im.serverHelper.UploadBuildResult(clientjson, resultid);
 
                         if (im.logger.GetIfBuildLog())
                         {
