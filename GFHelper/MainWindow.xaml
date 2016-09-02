@@ -10,10 +10,11 @@
 
     <Grid Name="mainGird" Margin="-3,0,3,1">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="329*"/>
+            <ColumnDefinition Width="625*"/>
         </Grid.ColumnDefinitions>
-        <StatusBar Name="statusBar" HorizontalAlignment="Left" Height="23" Margin="4,422,-4,0" VerticalAlignment="Top" Width="954"/>
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="427" VerticalAlignment="Top" Width="954" SelectionChanged="tabControl_SelectionChanged" Margin="4,-5,-4,0">
+        <StatusBar Name="statusBar" HorizontalAlignment="Left" Height="23" Margin="4,422,-4,0" VerticalAlignment="Top" Width="954" Grid.ColumnSpan="2"/>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="427" VerticalAlignment="Top" Width="954" SelectionChanged="tabControl_SelectionChanged" Margin="4,-5,-4,0" Grid.ColumnSpan="2">
             <TabItem Header="信息一览" Margin="-5,4,1,-4">
                 <Grid Background="#FFE5E5E5" Margin="-6,0,-4,-2">
 
@@ -112,7 +113,7 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="工厂" Margin="-38,4,33,-4">
+            <TabItem Header="人形建造" Margin="-37,4,33,-5">
                 <Grid Background="#FFE5E5E5" Margin="-6,0,-2,-2">
                     <Grid>
                         <ScrollViewer>
@@ -172,10 +173,10 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="战斗" Margin="5,4,-10,-4">
-                <Grid Background="#FFE5E5E5" Margin="-5,0,-6,-3"/>
+            <TabItem Header="战斗" Margin="31,4,-36,-4">
+                <Grid Background="#FFE5E5E5" Margin="0,-3,-11,0"/>
             </TabItem>
-            <TabItem Header="后勤" Name ="TabItemOperation" HorizontalAlignment="Left" Width="43" Margin="9,4,-16,-4">
+            <TabItem Header="后勤" Name ="TabItemOperation" HorizontalAlignment="Left" Width="43" Margin="35,4,-35,-4">
                 <Grid Background="#FFE5E5E5">
                     <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Height="25" Margin="32,22,0,0" TextWrapping="Wrap" Text="选择梯队:" VerticalAlignment="Top" Width="171" FontSize="16"/>
                     <ComboBox x:Name="comboBoxOperationTeam" HorizontalAlignment="Left" Height="25" Margin="112,20,0,0" VerticalAlignment="Top" Width="146"/>
@@ -193,6 +194,66 @@
                     </ListView>
                     <CheckBox x:Name="checkBoxAutoOperation" Content="自动重新开始后勤" HorizontalAlignment="Left" Height="16" Margin="178,128,0,0" VerticalAlignment="Top" Width="121" Click="checkBox_Checked"/>
                     <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Height="238" Margin="3,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326" Text="说明：&#x0a;    谨慎使用，可能有封号危险&#x0a;    因为懒所以没有写后勤条件的检查，所以请自己看好是否能够进行远征再自此添加。&#x0a;    本功能还属于测试，所以可能会有很多bug，请提交给我。&#x0a;    此页面加载完成之后，就可以退出游戏，之后会自动进行后勤。&#x0a;    时间修正大概写完了，顺带一提，勾选自动重新开始后勤之后推荐关闭游戏，以防游戏与本功能同时发送结束后勤请求"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="装备建造" Margin="-112,4,108,-5">
+                <Grid Background="#FFE5E5E5" Margin="-6,0,-2,-2">
+                    <Grid>
+                        <ScrollViewer>
+                            <Grid x:Name ="gridFactory1" HorizontalAlignment="Left" Height="1046" VerticalAlignment="Top" Width="954">
+                                <GroupBox x:Name="groupBox3" Header="建造槽1" HorizontalAlignment="Left" Height="102" Margin="24,21,0,0" VerticalAlignment="Top" Width="912">
+                                    <Grid HorizontalAlignment="Left" Height="81" Margin="-3,-5,-6,0" VerticalAlignment="Top" Width="909">
+                                        <TextBlock x:Name="textFactoryEquipName1" HorizontalAlignment="Left" Height="57" Margin="10,12,0,0" TextWrapping="Wrap" Text="未使用" VerticalAlignment="Top" Width="362" FontSize="48" TextAlignment="Right"/>
+                                        <TextBlock x:Name="textFactoryEquipTime1" HorizontalAlignment="Left" Height="57" Margin="409,14,0,0" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Width="481" FontSize="48" TextAlignment="Left"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox2_Copy7" Header="建造槽2" HorizontalAlignment="Left" Height="102" Margin="24,146,0,0" VerticalAlignment="Top" Width="912">
+                                    <Grid HorizontalAlignment="Left" Height="81" Margin="-3,-5,-6,0" VerticalAlignment="Top" Width="909">
+                                        <TextBlock x:Name="textFactoryEquipName2" HorizontalAlignment="Left" Height="57" Margin="10,12,0,0" TextWrapping="Wrap" Text="未使用" VerticalAlignment="Top" Width="362" FontSize="48" TextAlignment="Right"/>
+                                        <TextBlock x:Name="textFactoryEquipTime2" HorizontalAlignment="Left" Height="57" Margin="409,14,0,0" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Width="481" FontSize="48" TextAlignment="Left"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox2_Copy8" Header="建造槽3" HorizontalAlignment="Left" Height="102" Margin="24,282,0,0" VerticalAlignment="Top" Width="912">
+                                    <Grid HorizontalAlignment="Left" Height="81" Margin="-3,-5,-6,0" VerticalAlignment="Top" Width="909">
+                                        <TextBlock x:Name="textFactoryEquipName3" HorizontalAlignment="Left" Height="57" Margin="10,12,0,0" TextWrapping="Wrap" Text="未使用" VerticalAlignment="Top" Width="362" FontSize="48" TextAlignment="Right"/>
+                                        <TextBlock x:Name="textFactoryEquipTime3" HorizontalAlignment="Left" Height="57" Margin="409,14,0,0" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Width="481" FontSize="48" TextAlignment="Left"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox2_Copy9" Header="建造槽4" HorizontalAlignment="Left" Height="102" Margin="24,421,0,0" VerticalAlignment="Top" Width="912">
+                                    <Grid HorizontalAlignment="Left" Height="81" Margin="-3,-5,-6,0" VerticalAlignment="Top" Width="909">
+                                        <TextBlock x:Name="textFactoryEquipName4" HorizontalAlignment="Left" Height="57" Margin="10,12,0,0" TextWrapping="Wrap" Text="未使用" VerticalAlignment="Top" Width="362" FontSize="48" TextAlignment="Right"/>
+                                        <TextBlock x:Name="textFactoryEquipTime4" HorizontalAlignment="Left" Height="57" Margin="409,14,0,0" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Width="481" FontSize="48" TextAlignment="Left"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox2_Copy10" Header="建造槽5" HorizontalAlignment="Left" Height="102" Margin="24,553,0,0" VerticalAlignment="Top" Width="912">
+                                    <Grid HorizontalAlignment="Left" Height="81" Margin="-3,-5,-6,0" VerticalAlignment="Top" Width="909">
+                                        <TextBlock x:Name="textFactoryEquipName5" HorizontalAlignment="Left" Height="57" Margin="10,12,0,0" TextWrapping="Wrap" Text="未使用" VerticalAlignment="Top" Width="362" FontSize="48" TextAlignment="Right"/>
+                                        <TextBlock x:Name="textFactoryEquipTime5" HorizontalAlignment="Left" Height="57" Margin="409,14,0,0" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Width="481" FontSize="48" TextAlignment="Left"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox2_Copy11" Header="建造槽6" HorizontalAlignment="Left" Height="102" Margin="24,680,0,0" VerticalAlignment="Top" Width="912">
+                                    <Grid HorizontalAlignment="Left" Height="81" Margin="-3,-5,-6,0" VerticalAlignment="Top" Width="909">
+                                        <TextBlock x:Name="textFactoryEquipName6" HorizontalAlignment="Left" Height="57" Margin="10,12,0,0" TextWrapping="Wrap" Text="未使用" VerticalAlignment="Top" Width="362" FontSize="48" TextAlignment="Right"/>
+                                        <TextBlock x:Name="textFactoryEquipTime6" HorizontalAlignment="Left" Height="57" Margin="409,14,0,0" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Width="481" FontSize="48" TextAlignment="Left"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox2_Copy12" Header="建造槽7" HorizontalAlignment="Left" Height="102" Margin="24,809,0,0" VerticalAlignment="Top" Width="912">
+                                    <Grid HorizontalAlignment="Left" Height="81" Margin="-3,-5,-6,0" VerticalAlignment="Top" Width="909">
+                                        <TextBlock x:Name="textFactoryEquipName7" HorizontalAlignment="Left" Height="57" Margin="10,12,0,0" TextWrapping="Wrap" Text="未使用" VerticalAlignment="Top" Width="362" FontSize="48" TextAlignment="Right"/>
+                                        <TextBlock x:Name="textFactoryEquipTime7" HorizontalAlignment="Left" Height="57" Margin="409,14,0,0" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Width="481" FontSize="48" TextAlignment="Left"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox2_Copy13" Header="建造槽8" HorizontalAlignment="Left" Height="102" Margin="24,941,0,-33" VerticalAlignment="Top" Width="912">
+                                    <Grid HorizontalAlignment="Left" Height="81" Margin="-3,-5,-6,0" VerticalAlignment="Top" Width="909">
+                                        <TextBlock x:Name="textFactoryEquipName8" HorizontalAlignment="Left" Height="57" Margin="10,12,0,0" TextWrapping="Wrap" Text="未使用" VerticalAlignment="Top" Width="362" FontSize="48" TextAlignment="Right"/>
+                                        <TextBlock x:Name="textFactoryEquipTime8" HorizontalAlignment="Left" Height="57" Margin="409,14,0,0" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Width="481" FontSize="48" TextAlignment="Left"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                        </ScrollViewer>
+
+                    </Grid>
+
                 </Grid>
             </TabItem>
 

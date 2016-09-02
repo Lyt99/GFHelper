@@ -15,6 +15,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,7 +28,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -57,6 +57,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>GFHelper.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip, Version=1.9.7.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
@@ -100,12 +103,13 @@
     <Compile Include="Models\CommonModels.cs" />
     <Compile Include="Models\EffectGridType.cs" />
     <Compile Include="Models\EffectType.cs" />
+    <Compile Include="Models\EquipInfo.cs" />
     <Compile Include="Models\GunInfo.cs" />
     <Compile Include="Models\GunType.cs" />
     <Compile Include="Models\GunWithUserInfo.cs" />
     <Compile Include="Models\OperationInfo.cs" />
     <Compile Include="Models\Platform.cs" />
-    <Compile Include="Models\SimpleUserInfo.cs" />
+    <Compile Include="SimpleInfo.cs" />
     <Compile Include="Models\TimerDelegate.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Ratio.cs" />
@@ -154,6 +158,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="WhatYouNeed\catchdata" />
+    <None Include="WhatYouNeed\config.cfg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -169,6 +175,13 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+    <Resource Include="WhatYouNeed\icon.ico" />
+    <Content Include="WhatYouNeed\log4net.dll" />
+    <Content Include="WhatYouNeed\Nekoxy.dll" />
+    <Content Include="WhatYouNeed\TrotiNet.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

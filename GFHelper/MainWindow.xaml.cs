@@ -38,19 +38,21 @@ namespace GFHelper
                     Environment.Exit(0);
                 }
 
-                Models.SimpleUserInfo.platform = Models.Platform.Android;
+                Models.SimpleInfo.platform = Models.Platform.Android;
 
                 if (this.im.configManager.getConfigString("platform") == "ios")
-                    Models.SimpleUserInfo.platform = Models.Platform.IOS;
+                    Models.SimpleInfo.platform = Models.Platform.IOS;
 
                 if (this.im.configManager.getConfigBool("debuglog"))
-                    this.im.logger.ifLog = true;
+                    this.im.logger.SetLogState(true);
 
                 if (this.im.configManager.getConfigBool("buildlog"))
-                    this.im.logger.ifBuildLog = true;
+                    this.im.logger.SetBuildLogState(true);
 
                 if (this.im.configManager.getConfigBool("autoopt"))
                     this.TabItemOperation.Visibility = Visibility.Visible;
+
+                im.logger.Log("GFHelper启动");
 
                 //讲道理，挺危险
                 Task.Run(() =>
@@ -76,13 +78,10 @@ namespace GFHelper
 
                 
             }
-            catch(Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)
-            {
-                
-            }
             catch(Exception e)
             {
                 Console.WriteLine(e);
+                MessageBox.Show("GFHelper启动失败！错误原因: " + e.ToString());
             }
 
             

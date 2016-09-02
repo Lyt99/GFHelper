@@ -43,19 +43,12 @@ namespace GFHelper
         public bool startProxy(int port)
         {
             
-                if (!im.serverHelper.downloadServerInfo())
-                {
-                    im.uiHelper.setStatusBarText("服务器列表获取失败！");
-                    return false;
-                }
-
-                int servernum = im.serverHelper.getServersNumber();
-
             try
             {
                 HttpProxy.Shutdown();
 
-                HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { processData(obj); });
+                HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { WaitForServerDownload(obj); });
+                //HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { processData(obj); });
                 HttpProxy.Startup(port, false, false);
             }
             catch (Exception)
@@ -64,19 +57,37 @@ namespace GFHelper
                 return false;
             }
 
-            string proxyaddr = String.Format("{0}:{1}", im.serverHelper.getLocalAddress(), port);
+            string proxyaddr = String.Format("{0}:{1}", im.serverHelper.GetLocalAddress(), port);
 
-                im.uiHelper.setStatusBarText(String.Format("代理在{0}上开启成功，等待连接……已添加{1}个服务器", proxyaddr, servernum));
+                im.uiHelper.setStatusBarText(String.Format("代理在{0}上开启成功，等待连接……", proxyaddr));
                 return true;
 
 
         }
 
 
+        private void WaitForServerDownload(Session o)
+        {
+            if (SimpleInfo.isServerLoaded) return;
+            string servercontent = o.Response.BodyAsString;
+            if (servercontent.Split('\n')[0].Contains("<?xml"))
+            {
+                if (im.serverHelper.ReadServerInfo(servercontent))
+                {
+                    string message = String.Format("服务器列表读取成功，已添加{0}个服务器", im.serverHelper.GetServerNumber());
+                    im.uiHelper.setStatusBarText_InThread(message);
+                    HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { processData(obj); });
+                    SimpleInfo.isServerLoaded = true;
+                }
+                
+            }
+            
+        }
+
         private void processData(Session obj)
         {
             string host = obj.Request.Headers.Host;
-            KeyValuePair<string, string> server = im.serverHelper.getServerFromDictionary(host);
+            KeyValuePair<string, string> server = im.serverHelper.GetServerFromDictionary(host);
 
             if (server.Key == "" && server.Value == "") return;
 
@@ -84,6 +95,9 @@ namespace GFHelper
             Console.WriteLine(api);
             switch (api)
             {
+                case RequestUrls.GetVersion:
+                    //TODO:目录下catchdata版本检测
+                    break;
                 case RequestUrls.GetDigitalUid:
                     {
                         string data = obj.Response.BodyAsString;
@@ -94,11 +108,11 @@ namespace GFHelper
                         uid = jsonobj.uid;
 
                         //wtf?
-                        Models.SimpleUserInfo.sign = token;
-                        Models.SimpleUserInfo.uid = uid;
+                        Models.SimpleInfo.sign = token;
+                        Models.SimpleInfo.uid = uid;
 
-                        im.uiHelper.setStatusBarText_InThread(String.Format("已登录服务器: {0}，token: {1}，uid: {2}", server.Value, token, uid));
-                        Models.SimpleUserInfo.host = server.Key;
+                        im.uiHelper.setStatusBarText_InThread(String.Format("已登录服务器: {0}，uid: {2}", server.Value, token, uid));
+                        Models.SimpleInfo.host = server.Key;
                         break;
                     }
 
@@ -115,8 +129,8 @@ namespace GFHelper
                         dynamic jsonobj = DynamicJson.Parse(decoded);
 
                         Console.WriteLine("Server: " + jsonobj.now + " \nClient: " + CommonHelper.ConvertDateTimeInt(DateTime.Now));
-                        SimpleUserInfo.timeoffset = Convert.ToInt32(jsonobj.now) - CommonHelper.ConvertDateTimeInt(DateTime.Now);//server = local + offset
-                        Console.WriteLine("Set timeoffset: " + SimpleUserInfo.timeoffset);
+                        SimpleInfo.timeoffset = Convert.ToInt32(jsonobj.now) - CommonHelper.ConvertDateTimeInt(DateTime.Now);//server = local + offset
+                        Console.WriteLine("Set timeoffset: " + SimpleInfo.timeoffset);
                         break;
                     }
 
@@ -131,22 +145,23 @@ namespace GFHelper
                         {
                             try {
                                 StringBuilder sb = new StringBuilder();
-                                sb.Append("api: " + api + "\n");
+                                sb.Append("api: " + api + '\n');
                                 NameValueCollection clientdata = new NameValueCollection();
                                 string serverdata = AuthCode.Decode(obj.Response.BodyAsString, token);
                                 Console.WriteLine("Serverdata: " + serverdata);
                                 if (String.IsNullOrEmpty(serverdata))//没有加密
                                     serverdata = obj.Response.BodyAsString;
 
-                                if (!String.IsNullOrEmpty(obj.Response.BodyAsString))
+                                if (!String.IsNullOrEmpty(obj.Request.BodyAsString))
                                 {
 
                                     clientdata = HttpUtility.ParseQueryString(obj.Request.BodyAsString);
+                                    sb.Append("RawClientData: " + clientdata + '\n');
                                     if (clientdata.AllKeys.Contains("outdatacode"))
                                     {
-                                        clientdata["outdatacode"] = AuthCode.Decode(clientdata["outdatacode"], token, SimpleUserInfo.timeoffset);
+                                        clientdata["outdatacode"] = AuthCode.Decode(clientdata["outdatacode"], token, SimpleInfo.timeoffset);
                                         Console.WriteLine("outdatacode: " + clientdata["outdatacode"]);
-                                        sb.Append("client: " + clientdata["outdatacode"] + "\n");
+                                        sb.Append("client: " + clientdata["outdatacode"] + '\n');
 
                                     }
                                     else
@@ -154,7 +169,8 @@ namespace GFHelper
 
                                     sb.Append("server: " + serverdata);
                                     im.logger.Log(sb.ToString());
-                                    
+
+                                    SimpleInfo.reqid = Convert.ToInt32(clientdata["req_id"]);
                                 }
 
                                 if(serverdata.Length < 100)
@@ -189,24 +205,22 @@ namespace GFHelper
 
                 //建造
                 case RequestUrls.DevelopGun:
-                    {
-                        
+                    {                      
                         dynamic serverjson = DynamicJson.Parse(server);
 
                         int buildslot = Convert.ToInt32(clientjson.build_slot);
                         int resultid = Convert.ToInt32(serverjson.gun_id);
                         Task.Run(() =>
                         {
-                            im.serverHelper.uploadBuildResult(clientjson, resultid);
+                            im.serverHelper.UploadBuildResult(clientjson, resultid);
                         });
 
                         im.uiHelper.setDevelopingTimer(im.timer, buildslot, resultid, CommonHelper.ConvertDateTimeInt(DateTime.Now));
-                        im.uiHelper.setStatusBarText_InThread(String.Format("建造结果: {0} 于建造槽{1}", Data.gunInfo[resultid].name, buildslot));
-                        im.serverHelper.uploadBuildResult(clientjson, resultid);
+                        im.uiHelper.setStatusBarText_InThread(String.Format("建造结果: {0} 于建造槽{1}", Data.gunInfo[resultid].name, (buildslot + 1) / 2));
 
-                        if (im.logger.ifBuildLog)
+                        if (im.logger.GetIfBuildLog())
                         {
-                            string logstr = String.Format("人力: {0}, 弹药: {1}, 口粮: {2}, 零件: {3}, 建造结果: {4}", Convert.ToInt32(clientjson.mp), Convert.ToInt32(clientjson.ammo), Convert.ToInt32(clientjson.mre), Convert.ToInt32(clientjson.part), Data.gunInfo[resultid].name);
+                            string logstr = String.Format("[人形建造]人力: {0}, 弹药: {1}, 口粮: {2}, 零件: {3}, 建造结果: {4}", Convert.ToInt32(clientjson.mp), Convert.ToInt32(clientjson.ammo), Convert.ToInt32(clientjson.mre), Convert.ToInt32(clientjson.part), Data.gunInfo[resultid].name);
                             im.logger.LogBuildResult(logstr);
                         }
                         break;
@@ -219,6 +233,33 @@ namespace GFHelper
                         break;
                     }
 
+                case RequestUrls.DevelopEquip:
+                    {
+                        dynamic serverjson = DynamicJson.Parse(server);
+
+                        int buildslot = Convert.ToInt32(clientjson.build_slot);
+                        int resultid = Convert.ToInt32(serverjson.equip_id);
+                        Task.Run(() =>
+                        {
+                            im.serverHelper.UploadBuildResult(clientjson, resultid);
+                        });
+
+                        im.uiHelper.setDevelopingTimer(im.timer, buildslot, resultid, CommonHelper.ConvertDateTimeInt(DateTime.Now), true);
+                        im.uiHelper.setStatusBarText_InThread(String.Format("建造结果: {0} 于建造槽{1}", Data.equipInfo[resultid].name, (buildslot + 1) / 2));
+
+                        if (im.logger.GetIfBuildLog())
+                        {
+                            string logstr = String.Format("[装备建造]人力: {0}, 弹药: {1}, 口粮: {2}, 零件: {3}, 建造结果: {4}", Convert.ToInt32(clientjson.mp), Convert.ToInt32(clientjson.ammo), Convert.ToInt32(clientjson.mre), Convert.ToInt32(clientjson.part), Data.equipInfo[resultid].name);
+                            im.logger.LogBuildResult(logstr);
+                        }
+                        break;
+                    }
+
+                case RequestUrls.FinishDeveloEquip:
+                    {
+                        im.uiHelper.setFactoryTimerDefault(Convert.ToInt32(clientjson.build_slot), true);
+                        break;
+                    }
                 //后勤有关
                 case RequestUrls.StartOperation:
                     {

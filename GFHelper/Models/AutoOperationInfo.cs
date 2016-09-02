@@ -65,7 +65,13 @@ namespace GFHelper.Models
             }
         }
 
-
+        public int MissionId
+        {
+            get
+            {
+                return Data.operationInfo[this._operationId].campaign;
+            }
+        }
 
 
         public int _operationId;

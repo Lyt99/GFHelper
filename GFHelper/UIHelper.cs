@@ -149,111 +149,135 @@ namespace GFHelper
             }));
         }
 
+        public void SetDevelopingTextBlock(int slot, out TextBlock textname, out TextBlock texttime, bool isEquip = false)
+        {
+            if (!isEquip)
+            {
+                switch (slot)
+                {
+                    case 1:
+                        textname = im.mainWindow.textFactoryGunName1;
+                        texttime = im.mainWindow.textFactoryGunTime1;
+                        break;
+                    case 2:
+                        textname = im.mainWindow.textFactoryGunName2;
+                        texttime = im.mainWindow.textFactoryGunTime2;
+                        break;
+                    case 3:
+                        textname = im.mainWindow.textFactoryGunName3;
+                        texttime = im.mainWindow.textFactoryGunTime3;
+                        break;
+                    case 4:
+                        textname = im.mainWindow.textFactoryGunName4;
+                        texttime = im.mainWindow.textFactoryGunTime4;
+                        break;
+                    case 5:
+                        textname = im.mainWindow.textFactoryGunName5;
+                        texttime = im.mainWindow.textFactoryGunTime5;
+                        break;
+                    case 6:
+                        textname = im.mainWindow.textFactoryGunName6;
+                        texttime = im.mainWindow.textFactoryGunTime6;
+                        break;
+                    case 7:
+                        textname = im.mainWindow.textFactoryGunName7;
+                        texttime = im.mainWindow.textFactoryGunTime7;
+                        break;
+                    case 8:
+                        textname = im.mainWindow.textFactoryGunName8;
+                        texttime = im.mainWindow.textFactoryGunTime8;
+                        break;
 
-        public void setDevelopingTimer(Timer timer, int slot, int gun_id, int starttime)
+                    default:
+                        textname = im.mainWindow.textFactoryGunName1;
+                        texttime = im.mainWindow.textFactoryGunTime1;
+                        break;
+                }
+            }
+            else
+            {
+                switch (slot)
+                {
+                    case 1:
+                        textname = im.mainWindow.textFactoryEquipName1;
+                        texttime = im.mainWindow.textFactoryEquipTime1;
+                        break;
+                    case 2:
+                        textname = im.mainWindow.textFactoryEquipName2;
+                        texttime = im.mainWindow.textFactoryEquipTime2;
+                        break;
+                    case 3:
+                        textname = im.mainWindow.textFactoryEquipName3;
+                        texttime = im.mainWindow.textFactoryEquipTime3;
+                        break;
+                    case 4:
+                        textname = im.mainWindow.textFactoryEquipName4;
+                        texttime = im.mainWindow.textFactoryEquipTime4;
+                        break;
+                    case 5:
+                        textname = im.mainWindow.textFactoryEquipName5;
+                        texttime = im.mainWindow.textFactoryEquipTime5;
+                        break;
+                    case 6:
+                        textname = im.mainWindow.textFactoryEquipName6;
+                        texttime = im.mainWindow.textFactoryEquipTime6;
+                        break;
+                    case 7:
+                        textname = im.mainWindow.textFactoryEquipName7;
+                        texttime = im.mainWindow.textFactoryEquipTime7;
+                        break;
+                    case 8:
+                        textname = im.mainWindow.textFactoryEquipName8;
+                        texttime = im.mainWindow.textFactoryEquipTime8;
+                        break;
+
+                    default:
+                        textname = im.mainWindow.textFactoryEquipName1;
+                        texttime = im.mainWindow.textFactoryEquipTime1;
+                        break;
+                }
+            }
+        }
+
+        public void setDevelopingTimer(Timer timer, int slot, int id, int starttime, bool isEquip = false)
         {
             TextBlock texttime;
             TextBlock textname;
+        
             slot = (slot + 1) / 2;
-            switch (slot)
-            {
-                case 1:
-                    textname = im.mainWindow.textFactoryGunName1;
-                    texttime = im.mainWindow.textFactoryGunTime1;
-                    break;
-                case 2:
-                    textname = im.mainWindow.textFactoryGunName2;
-                    texttime = im.mainWindow.textFactoryGunTime2;
-                    break;
-                case 3:
-                    textname = im.mainWindow.textFactoryGunName3;
-                    texttime = im.mainWindow.textFactoryGunTime3;
-                    break;
-                case 4:
-                    textname = im.mainWindow.textFactoryGunName4;
-                    texttime = im.mainWindow.textFactoryGunTime4;
-                    break;
-                case 5:
-                    textname = im.mainWindow.textFactoryGunName5;
-                    texttime = im.mainWindow.textFactoryGunTime5;
-                    break;
-                case 6:
-                    textname = im.mainWindow.textFactoryGunName6;
-                    texttime = im.mainWindow.textFactoryGunTime6;
-                    break;
-                case 7:
-                    textname = im.mainWindow.textFactoryGunName7;
-                    texttime = im.mainWindow.textFactoryGunTime7;
-                    break;
-                case 8:
-                    textname = im.mainWindow.textFactoryGunName8;
-                    texttime = im.mainWindow.textFactoryGunTime8;
-                    break;
+            this.SetDevelopingTextBlock(slot, out textname, out texttime, isEquip);
 
-                default:
-                    textname = im.mainWindow.textFactoryGunName1;
-                    texttime = im.mainWindow.textFactoryGunTime1;
-                    break;
+            string name;
+            int duration;
+            if (!isEquip)
+            {
+                name = Data.gunInfo[id].name;
+                duration = Data.gunInfo[id].developDuration;
             }
-            string name = Data.gunInfo[gun_id].name;
-            int duration = Data.gunInfo[gun_id].developDuration;
+            else
+            {
+                name = Data.equipInfo[id].name;
+                duration = Data.equipInfo[id].developDuration;
+            }
             this.setTextBlockText(textname, name);
             
             timer.AddTimerText(texttime, starttime, duration);
             timer.Start();
         }
 
-        public void setFactoryTimerDefault(int slot)
+        public void setFactoryTimerDefault(int slot, bool isEquip = false)
         {
             TextBlock textname, texttime;
             slot = (slot + 1) / 2;
-            switch (slot)
-            {
-                case 1:
-                    textname = im.mainWindow.textFactoryGunName1;
-                    texttime = im.mainWindow.textFactoryGunTime1;
-                    break;
-                case 2:
-                    textname = im.mainWindow.textFactoryGunName2;
-                    texttime = im.mainWindow.textFactoryGunTime2;
-                    break;
-                case 3:
-                    textname = im.mainWindow.textFactoryGunName3;
-                    texttime = im.mainWindow.textFactoryGunTime3;
-                    break;
-                case 4:
-                    textname = im.mainWindow.textFactoryGunName4;
-                    texttime = im.mainWindow.textFactoryGunTime4;
-                    break;
-                case 5:
-                    textname = im.mainWindow.textFactoryGunName5;
-                    texttime = im.mainWindow.textFactoryGunTime5;
-                    break;
-                case 6:
-                    textname = im.mainWindow.textFactoryGunName6;
-                    texttime = im.mainWindow.textFactoryGunTime6;
-                    break;
-                case 7:
-                    textname = im.mainWindow.textFactoryGunName7;
-                    texttime = im.mainWindow.textFactoryGunTime7;
-                    break;
-                case 8:
-                    textname = im.mainWindow.textFactoryGunName8;
-                    texttime = im.mainWindow.textFactoryGunTime8;
-                    break;
 
-                default:
-                    textname = im.mainWindow.textFactoryGunName1;
-                    texttime = im.mainWindow.textFactoryGunTime1;
-                    break;
-            }
+            SetDevelopingTextBlock(slot, out textname, out texttime, isEquip);
 
-            
             this.setTextBlockText(textname, "未使用");
             Console.WriteLine(im.timer.GetType());
             im.timer.DeleteTimerWithTextBlock(texttime);
             this.setTextBlockText(texttime, CommonHelper.formatDuration(0));
         }
+
         public void setUserInfo()
         {
             try {
