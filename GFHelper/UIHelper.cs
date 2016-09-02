@@ -14,30 +14,39 @@ namespace GFHelper
 {
     class UIHelper
     {
+        //有关界面的Grid边界线的绘制
         private static SolidColorBrush _BorderBrush = new SolidColorBrush(Colors.DarkGray);
 
+        //有关界面的Grid边界线的绘制
         public static SolidColorBrush BorderBrush {
             get { return UIHelper._BorderBrush; }
             set { UIHelper._BorderBrush = value; }
         }
+
+        //有关界面的Grid边界线的绘制
         private static double _BorderThickness = 1;
 
+        //有关界面的Grid边界线的绘制
         public static double BorderThickness {
             get { return UIHelper._BorderThickness; }
             set { UIHelper._BorderThickness = value; }
         }
 
+        //有关界面的Grid边界线的绘制
         public static bool GetShowBorder(DependencyObject obj) {
             return (bool)obj.GetValue(ShowBorderProperty);
         }
 
+        //有关界面的Grid边界线的绘制
         public static void SetShowBorder(DependencyObject obj, bool value) {
             obj.SetValue(ShowBorderProperty, value);
         }
 
+        //有关界面的Grid边界线的绘制
         public static readonly DependencyProperty ShowBorderProperty =
         DependencyProperty.RegisterAttached("ShowBorder", typeof(bool), typeof(UIHelper), new PropertyMetadata(OnShowBorderChanged));
 
+        //有关界面的Grid边界线的绘制
         private static void OnShowBorderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var grid = d as Grid;
             if((bool)e.OldValue) {
@@ -45,8 +54,7 @@ namespace GFHelper
             }
 
             if((bool)e.NewValue) {
-                grid.Loaded += (s, arg) =>
-                {
+                grid.Loaded += (s, arg) => {
                     var rows = grid.RowDefinitions.Count;
                     var columns = grid.ColumnDefinitions.Count;
 
@@ -87,14 +95,10 @@ namespace GFHelper
                     bo.Tag = "autoBorder";
                     grid.Children.Add(bo);
                 };
+            }
+        }
 
-          }
-    }
-
-    
-
-
-    private InstanceManager im;
+        private InstanceManager im;
 
         public UIHelper(InstanceManager im)
         {
