@@ -18,11 +18,13 @@ namespace GFHelper
         public MainWindow mainWindow;
         public AutoOperation autoOperation;
         public Logger logger;
+        public UpdateManager updateManager;
 
         public InstanceManager(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
 
+            this.logger = new Logger(this);
             this.configManager = new ConfigManager(this);
             this.timer = new Timer(this);
             this.uiHelper = new UIHelper(this);
@@ -30,7 +32,7 @@ namespace GFHelper
             this.dataHelper = new DataHelper(this);
             this.listener = new Listener(this);
             this.autoOperation = new AutoOperation(this);
-            this.logger = new Logger(this);
+            this.updateManager = new UpdateManager(this);
         }
     }
 }

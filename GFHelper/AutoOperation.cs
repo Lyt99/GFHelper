@@ -128,7 +128,7 @@ namespace GFHelper
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
+                im.logger.Log(e);
             }
 
         }
@@ -161,12 +161,12 @@ namespace GFHelper
                 string jsondata = String.Format("{{\"operation_id\":{0}}}", ao._operationId.ToString());
 
                 string result = im.serverHelper.SendDataToServer(RequestUrls.FinishOperation, jsondata);
-                Console.WriteLine(result);
+                im.logger.Log(result);
                 return true;
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
+                im.logger.Log(e);
                 return false;
             }
 

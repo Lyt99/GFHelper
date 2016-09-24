@@ -65,5 +65,7 @@ public class RequestUrls
     public const string Update = "Index/update";
     public const string UploadUserLog = "Index/logCheatContent";
     public const string Withdraw = "Mission/withdrawTeam";
+    public const string DevelopLog = "Gun/developLog";
+    public const string EquipDevelopLog = "Equip/developLog";
 }
 

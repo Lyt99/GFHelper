@@ -74,8 +74,19 @@ namespace GFHelper
             {
                 if (im.serverHelper.ReadServerInfo(servercontent))
                 {
+                    if (im.updateManager.CheckUpdate(im.serverHelper.getDataVersion()))
+                    {
+                        im.uiHelper.setStatusBarText_InThread("更新catchdata...");
+                        im.updateManager.UpdateCatchData();
+                    }
+                    else
+                        im.dataHelper.StartReadCatchData();
+
                     string message = String.Format("服务器列表读取成功，已添加{0}个服务器", im.serverHelper.GetServerNumber());
                     im.uiHelper.setStatusBarText_InThread(message);
+
+
+
                     HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { processData(obj); });
                     SimpleInfo.isServerLoaded = true;
                 }
@@ -92,7 +103,7 @@ namespace GFHelper
             if (server.Key == "" && server.Value == "") return;
 
             string api = obj.Request.RequestLine.URI.Substring(server.Key.Length - ("http://" + host).Length);
-            Console.WriteLine(api);
+            im.logger.Log(api);
             switch (api)
             {
                 case RequestUrls.GetVersion:
@@ -102,7 +113,7 @@ namespace GFHelper
                     {
                         string data = obj.Response.BodyAsString;
                         string decoded = AuthCode.Decode(data, "yundoudou");
-                        Console.WriteLine(decoded);
+                        im.logger.Log(decoded);
                         dynamic jsonobj = DynamicJson.Parse(decoded);
                         token = jsonobj.sign;
                         uid = jsonobj.uid;
@@ -128,9 +139,9 @@ namespace GFHelper
                         string decoded = AuthCode.Decode(obj.Response.BodyAsString, token);
                         dynamic jsonobj = DynamicJson.Parse(decoded);
 
-                        Console.WriteLine("Server: " + jsonobj.now + " \nClient: " + CommonHelper.ConvertDateTimeInt(DateTime.Now));
+                        im.logger.Log("Server: " + jsonobj.now + " \nClient: " + CommonHelper.ConvertDateTimeInt(DateTime.Now));
                         SimpleInfo.timeoffset = Convert.ToInt32(jsonobj.now) - CommonHelper.ConvertDateTimeInt(DateTime.Now);//server = local + offset
-                        Console.WriteLine("Set timeoffset: " + SimpleInfo.timeoffset);
+                        im.logger.Log("Set timeoffset: " + SimpleInfo.timeoffset);
                         break;
                     }
 
@@ -139,6 +150,7 @@ namespace GFHelper
                     {
                         if (String.IsNullOrEmpty(token) || String.IsNullOrEmpty(uid))
                         {
+                            im.logger.Log(api);
                             im.uiHelper.setStatusBarText_InThread("未获取到token！请重新登录游戏以使本工具正常工作！");
                         }
                         else
@@ -148,7 +160,7 @@ namespace GFHelper
                                 sb.Append("api: " + api + '\n');
                                 NameValueCollection clientdata = new NameValueCollection();
                                 string serverdata = AuthCode.Decode(obj.Response.BodyAsString, token);
-                                Console.WriteLine("Serverdata: " + serverdata);
+                                im.logger.Log("Serverdata: " + serverdata);
                                 if (String.IsNullOrEmpty(serverdata))//没有加密
                                     serverdata = obj.Response.BodyAsString;
 
@@ -159,8 +171,8 @@ namespace GFHelper
                                     sb.Append("RawClientData: " + clientdata + '\n');
                                     if (clientdata.AllKeys.Contains("outdatacode"))
                                     {
-                                        clientdata["outdatacode"] = AuthCode.Decode(clientdata["outdatacode"], token, SimpleInfo.timeoffset);
-                                        Console.WriteLine("outdatacode: " + clientdata["outdatacode"]);
+                                        clientdata["outdatacode"] = AuthCode.Decode(clientdata["outdatacode"], token);
+                                        im.logger.Log("outdatacode: " + clientdata["outdatacode"]);
                                         sb.Append("client: " + clientdata["outdatacode"] + '\n');
 
                                     }
@@ -174,12 +186,12 @@ namespace GFHelper
                                 }
 
                                 if(serverdata.Length < 100)
-                                Console.WriteLine("Serverdata: " + serverdata);
+                                im.logger.Log("Serverdata: " + serverdata);
                                 processMainData(api, clientdata, serverdata);
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine(e);
+                                im.logger.Log(e);
                             }
                         }
                         break;

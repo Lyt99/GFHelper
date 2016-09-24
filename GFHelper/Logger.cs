@@ -29,15 +29,14 @@ namespace GFHelper
         public bool GetIfBuildLog() { return ifBuildLog; }
 
 
-        public void Log(string logstr, string logFile = "", bool forcelog = false)
+        public void Log(object str, string logFile = "", bool forcelog = false)
         {
             if (!ifLog && !forcelog) return;
             if (String.IsNullOrEmpty(logFile)) logFile = this.logFileName;
 
-            Console.WriteLine("Start Logging..." + logFile);
             FileStream fs = new FileStream(logFile, FileMode.Append);
             
-            string log = string.Format("[{0}]\n{1}\n", DateTime.Now.ToString(), logstr);
+            string log = string.Format("[{0}]{1}{2}{3}", DateTime.Now.ToString(), System.Environment.NewLine, str.ToString(), System.Environment.NewLine);
             byte[] logbyte = Encoding.Default.GetBytes(log);
             fs.Write(logbyte, 0, logbyte.Length);
             fs.Flush();
@@ -46,12 +45,9 @@ namespace GFHelper
 
         public void LogBuildResult(string logstr)
         {
-
-            Console.WriteLine(logstr);
-
             FileStream fs = new FileStream(buildLogFileName, FileMode.Append);
             if (!ifLog) return;
-            string log = string.Format("[{0}]\n{1}\n", DateTime.Now.ToString(), logstr);
+            string log = string.Format("[{0}]{1}{2}{3}", DateTime.Now.ToString(), System.Environment.NewLine, logstr, System.Environment.NewLine);
             byte[] logbyte = Encoding.Default.GetBytes(log);
             fs.Write(logbyte, 0, logbyte.Length);
             fs.Flush();

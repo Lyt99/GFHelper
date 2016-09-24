@@ -188,7 +188,7 @@ namespace GFHelper
             SetDevelopingTextBlock(slot, out textname, out texttime, isEquip);
 
             this.setTextBlockText(textname, "未使用");
-            Console.WriteLine(im.timer.GetType());
+            im.logger.Log(im.timer.GetType());
             im.timer.DeleteTimerWithTextBlock(texttime);
             this.setTextBlockText(texttime, CommonHelper.formatDuration(0));
         }
@@ -247,7 +247,7 @@ namespace GFHelper
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
+                im.logger.Log(e);
                 throw;
             }
         }

@@ -54,23 +54,7 @@ namespace GFHelper
 
                 im.logger.Log("GFHelper启动");
 
-                //讲道理，挺危险
-                Task.Run(() =>
-                {
-                    if (im.dataHelper.ReadCatchData())
-                    {
-                        im.autoOperation.SetOperationInfo();
-                        im.autoOperation.StartRefresh();
-                    }
-                    else
-                    {
-                        im.uiHelper.setStatusBarText_InThread("catchdata读取失败！请检查相关文件！");
-                        im.listener.Shutdown();
-                    }
-                    
 
-                    Console.WriteLine("ok");
-                });
 
                 int port = im.configManager.getConfigInt("port");
                 if (port <= 0) port = 8888;
@@ -80,7 +64,7 @@ namespace GFHelper
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
+                im.logger.Log(e);
                 MessageBox.Show("GFHelper启动失败！错误原因: " + e.ToString());
             }
 
@@ -110,13 +94,12 @@ namespace GFHelper
                 MessageBox.Show("添加失败！请检查你的选择！");
                 //return;
             }
-            Console.WriteLine("{0} {1}", comboBoxOperationTeam.SelectedIndex, comboBoxOperation.SelectedIndex);
             im.autoOperation.Start(comboBoxOperationTeam.SelectedIndex + 1, comboBoxOperation.SelectedIndex + 1);
         }
 
         private void checkBox_Checked(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(checkBoxAutoOperation.IsChecked);
+            im.logger.Log(checkBoxAutoOperation.IsChecked);
             im.autoOperation.autoOperation = (bool)checkBoxAutoOperation.IsChecked;
         }
     }

@@ -14,14 +14,33 @@ namespace GFHelper
         public Dictionary<int, GunInfo> gunInfoDict;
 
         private InstanceManager im;
-
-       
         public DataHelper(InstanceManager im)
         {
             this.gunInfoDict = new Dictionary<int, GunInfo>();
             this.im = im;
 
         }
+
+
+        public void StartReadCatchData()
+        {
+            Task.Run(() =>
+            {
+                if (im.dataHelper.ReadCatchData())
+                {
+                    im.autoOperation.SetOperationInfo();
+                }
+                else
+                {
+                    im.uiHelper.setStatusBarText_InThread("catchdata读取失败！请检查相关文件！");
+                    im.listener.Shutdown();
+                }
+
+
+                im.logger.Log("配置文件加载成功");
+            });
+        }
+
 
         public void ClearData()
         {
@@ -57,7 +76,6 @@ namespace GFHelper
             {
                 jsondata = File.ReadAllText(catchdatafile);
 
-                Console.WriteLine(jsondata.Length);
                 var jsonobj = DynamicJson.Parse(jsondata); //讲道理，我真不想写了
 
                 //gun_info
@@ -201,12 +219,12 @@ namespace GFHelper
             }
             catch (IOException e)
             {
-                Console.WriteLine(e);
+                im.logger.Log(e);
                 return false;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                im.logger.Log(e);
                 throw;
             }
             return true;
@@ -340,7 +358,7 @@ namespace GFHelper
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
+                im.logger.Log(e);
                 return false;
             }
             return true;

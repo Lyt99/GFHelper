@@ -10,6 +10,7 @@ namespace GFHelper
 {
     class CommonHelper
     {
+
         public static int ConvertDateTimeInt(System.DateTime time, bool ifoffset = false)
         {
             //double intResult = 0;

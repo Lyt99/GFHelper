@@ -12,13 +12,13 @@ namespace GFHelper
     class ServerHelper
     {
 
-        private Dictionary<string, string> serverList;
+        private List<Models.ServerInfo> serverList;
         private InstanceManager im;
 
         public ServerHelper(InstanceManager im)
         {
             this.im = im;
-            this.serverList = new Dictionary<string, string>();
+            this.serverList = new List<Models.ServerInfo>();
         }
 
         public string GetLocalAddress()
@@ -51,7 +51,7 @@ namespace GFHelper
         {
             try
             {
-                Console.WriteLine("doPost(): " + url + "====" + data);
+                im.logger.Log("doPost(): " + url + "====" + data);
                 WebClient wc = new WebClient();
                 wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                 wc.Encoding = Encoding.UTF8;
@@ -61,11 +61,15 @@ namespace GFHelper
             }
             catch(System.Net.WebException e)
             {
-                Console.WriteLine(e);
+                im.logger.Log(e);
                 return "";
             }
         }
 
+        public string getDataVersion()//默认获取1服的
+        {
+            return serverList[0].dataVersion;
+        }
         public bool ReadServerInfo(string data)
         {
             try
@@ -76,11 +80,25 @@ namespace GFHelper
                 var servers = serverrootele.GetElementsByTagName("server");
                 foreach (XmlElement item in servers)
                 {
-                    string servername = item.GetElementsByTagName("name")[0].InnerText;
-                    string serveraddr = item.GetElementsByTagName("addr")[0].InnerText;
-                    serverList.Add(serveraddr, servername);
+                    Models.ServerInfo si = new Models.ServerInfo();
+                    si.name = item.GetElementsByTagName("name")[0].InnerText;
+                    si.addr = item.GetElementsByTagName("addr")[0].InnerText;
+                    si.worldId = item.GetElementsByTagName("worldId")[0].InnerText;
+                    si.recommended = (item.GetElementsByTagName("recommended")[0].InnerText == "1");
+                    si.condition = Convert.ToInt32(item.GetElementsByTagName("condition")[0].InnerText);
+                    si.noticeUrl = item.GetElementsByTagName("notice_url")[0].InnerText;
+                    si.updateLogUrl = item.GetElementsByTagName("update_log_url")[0].InnerText;
+                    si.updateStartTime = Convert.ToInt32(item.GetElementsByTagName("update_start_time")[0].InnerText);
+                    si.updateEndTime = Convert.ToInt32(item.GetElementsByTagName("update_end_time")[0].InnerText);
+                    si.platform = item.GetElementsByTagName("platform")[0].InnerText;
+                    si.dataVersion = item.GetElementsByTagName("data_version")[0].InnerText;
+                    si.clientVersion = item.GetElementsByTagName("client_version")[0].InnerText;
+                    si.isCheck = (item.GetElementsByTagName("is_check")[0].InnerText == "1");
+                    si.nc = Convert.ToInt32(item.GetElementsByTagName("nc")[0].InnerText);
+                    serverList.Add(si);
                 }
 
+                
                 return true;
             }
             catch (Exception)
@@ -102,11 +120,17 @@ namespace GFHelper
 
         public KeyValuePair<string, string> GetServerFromDictionary(string host)
         {
-            foreach (var item in serverList)
+            try
             {
-                if (GetHost(item.Key) == host) return item;
+                var si = serverList.First(e => (GetHost(e.addr) == host));
+                return new KeyValuePair<string, string>(si.addr, si.name);
             }
-            return new KeyValuePair<string, string>("", "");
+            catch (System.InvalidOperationException)
+            {
+                return new KeyValuePair<string, string>("", "");
+            }
+            
+                
         }
 
         public void SendDataToServer_t(string url, string data, bool ifProcessData = false)
@@ -122,7 +146,7 @@ namespace GFHelper
             string host = Models.SimpleInfo.host;
             string outdatacode = AuthCode.Encode(data, Models.SimpleInfo.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", Models.SimpleInfo.uid, HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
-            Console.WriteLine(requeststring);
+            im.logger.Log(requeststring);
             string result = DoPost(host + url, requeststring);
 
             string nresult = AuthCode.Decode(result, Models.SimpleInfo.sign);
@@ -140,6 +164,7 @@ namespace GFHelper
 
         public bool UploadBuildResult(dynamic clientjson, int gunid)
         {
+            return true;
             string url = "http://gfdb.baka.pw/api/upload.php";
             StringBuilder sb = new StringBuilder();
             sb.Append("mp=" + Convert.ToInt32(clientjson.mp).ToString());
