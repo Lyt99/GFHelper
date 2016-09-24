@@ -29,6 +29,7 @@ namespace GFHelper
                 if (im.dataHelper.ReadCatchData())
                 {
                     im.autoOperation.SetOperationInfo();
+                    im.autoOperation.StartRefresh();
                 }
                 else
                 {
