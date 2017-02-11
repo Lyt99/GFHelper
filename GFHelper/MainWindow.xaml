@@ -67,8 +67,51 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="梯队" Margin="127,4,-131,-3" Visibility="Hidden">
-                <Grid Background="#FFE5E5E5" Margin="-6,0,-6,-3"/>
+            <TabItem Header="梯队" Margin="38,4,-42,-4">
+                <Grid Background="#FFE5E5E5" Margin="-6,0,-6,-3">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="T.C.SYSTEM"/>
+                            <Setter Property="FontSize" Value="21"/>
+                        </Style>
+                    </Grid.Resources>
+                    <ScrollViewer Margin="10,10,-10,-10">
+                        <GroupBox x:Name="echelon" Header="梯队1" HorizontalAlignment="Left" Height="153" Margin="0,0,0,0" VerticalAlignment="Top" Width="900">
+                            <Grid Name="echelonLeaderGunName" Margin="2,0,2,0" local:UIHelper.ShowBorder="True">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Name="LeaderInfo" Grid.RowSpan="2">
+                                    <TextBlock Name="pic" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="队长图片 140*140 " Width="140" Height="111" VerticalAlignment="Top" Grid.RowSpan="2"/>
+                                    <TextBlock Name="level" HorizontalAlignment="Left" Margin="155,5,0,0" TextWrapping="Wrap" Text="等级" VerticalAlignment="Top" Height="21" Width="42"/>
+                                    <TextBlock Name="life" HorizontalAlignment="Left" Margin="155,31,0,0" TextWrapping="Wrap" Text="生命" VerticalAlignment="Top" Height="21" Width="42"/>
+                                    <ProgressBar Name="lifebar" Height="20" Margin="202,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Value="100"/>
+                                    <TextBlock Name="lifeValue" Margin="202,35,0,0" TextWrapping="Wrap" Text="256/512" Width="176" FontSize="12" TextAlignment="Center" HorizontalAlignment="Left" Height="13" VerticalAlignment="Top"/>
+                                    <TextBlock Name="ammo" HorizontalAlignment="Left" Margin="155,82,0,0" TextWrapping="Wrap" Text="弹药" VerticalAlignment="Top" Height="22" Width="42"/>
+                                    <TextBlock Name="provisions" HorizontalAlignment="Left" Margin="155,57,0,0" TextWrapping="Wrap" Text="口粮" VerticalAlignment="Top" Height="20" Width="42"/>
+                                    <TextBlock Name="exp" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="exp"  Height="16" Width="34" Margin="155,104,0,0" VerticalAlignment="Top" FontSize="13.333"/>
+                                    <ProgressBar Width="223" Name="expbar" Height="10" FontSize="10" Margin="155,117,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Value="15" Foreground="LightSkyBlue"/>
+                                  </Grid>
+                                <Grid Name="Member1"  Grid.Column="1" local:UIHelper.ShowBorder="False">
+                                    <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" TextWrapping="Wrap" Text="队员2 66*66" VerticalAlignment="Top" Height="66" Width="66"/>
+                                </Grid>
+                                <Grid Name="Member2"  Grid.Column="2" local:UIHelper.ShowBorder="False">
+                                </Grid>
+                                <Grid Name="Member3"  Grid.Column="1" Grid.Row="1" local:UIHelper.ShowBorder="False">
+                                </Grid>
+                                <Grid Name="Member4"  Grid.Column="2" Grid.Row="1" local:UIHelper.ShowBorder="False">
+                                </Grid>
+                            </Grid>
+                            <!--<TextBlock x:Name="echelonGunTime1" HorizontalAlignment="Left" Height="57" Margin="409,14,0,0" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Top" Width="481" FontSize="48" TextAlignment="Left"/>-->
+                        </GroupBox>
+                    </ScrollViewer>
+                </Grid>
             </TabItem>
             <TabItem Header="人形建造" Margin="-37,4,33,-5">
                 <Grid Background="#FFE5E5E5" Margin="-6,0,-2,-2">
@@ -130,10 +173,10 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="战斗" Margin="71,4,-75,-6" Visibility="Hidden">
-                <Grid Background="#FFE5E5E5" Margin="-5,0,-6,-3"/>
+            <TabItem Header="战斗" Margin="31,4,-36,-4">
+                <Grid Background="#FFE5E5E5" Margin="0,-3,-11,0"/>
             </TabItem>
-            <TabItem Header="后勤" Name ="TabItemOperation" HorizontalAlignment="Left" Width="43" Margin="703,4,-703,-4" Visibility="Hidden">
+            <TabItem Header="后勤" Name ="TabItemOperation" HorizontalAlignment="Left" Width="43" Margin="35,4,-35,-4">
                 <Grid Background="#FFE5E5E5">
                     <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Height="25" Margin="32,22,0,0" TextWrapping="Wrap" Text="选择梯队:" VerticalAlignment="Top" Width="171" FontSize="16"/>
                     <ComboBox x:Name="comboBoxOperationTeam" HorizontalAlignment="Left" Height="25" Margin="112,20,0,0" VerticalAlignment="Top" Width="146"/>
